@@ -17,6 +17,7 @@ import {
   Settings,
   ShoppingCart,
   Table,
+  UserCircle2Icon,
   Users2,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -45,7 +46,14 @@ export default function Sidebar() {
       logo: <Users2 className="h-5 w-5" />,
     },
     {
-      id: 3,
+      id: 4,
+      name: "Users",
+      link: "/dashboard/users",
+      tooltiptext: "Users",
+      logo: <UserCircle2Icon className="h-5 w-5" />,
+    },
+    {
+      id: 5,
       name: "contact",
       link: "/dashboard/contact",
       tooltiptext: "Contact",

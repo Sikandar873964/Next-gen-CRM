@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <>
       <SideNav />
       <Header />
-      <div className="p-6 sm:pl-16">{children}</div>
+      <div className="p-6 sm:pl-20">{children}</div>
     </>
   );
 };
