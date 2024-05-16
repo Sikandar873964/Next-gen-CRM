@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
-      unique: true,
       min: 3,
       max: 20,
     },
@@ -73,5 +72,40 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const customerSchema = new mongoose.Schema(
+  {
+    customername: {
+      type: String,
+      required: true,
+      unique: true,
+      min: 3,
+      max: 20,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    img: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    product: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+
 export const User = mongoose.models.User || mongoose.model("User", userSchema);
 export const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
+export const Customer = mongoose.models.Customer || mongoose.model("Customer", customerSchema);
