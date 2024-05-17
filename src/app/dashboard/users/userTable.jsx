@@ -1,17 +1,17 @@
 "use client";
-
 import * as React from "react";
+import { deleteUser } from "@/app/lib/actions";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
 } from "@tanstack/react-table";
 import {
   Select,
@@ -28,7 +28,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -49,119 +48,121 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 
-const data = [
-  {
-    id: "m5gr84i9",
-    name: "John Doe",
-    amount: 316,
-    status: "Active",
-    email: "ken99@yahoo.com",
-    createdDate: "2022-01-01",
-    role: "Administrator",
-    date: new Date("2022-01-01"),
-  },
-  {
-    id: "3u1reuv4",
-    name: "Jane Smith",
-    amount: 242,
-    status: "Active",
-    email: "Abe45@gmail.com",
-    createdDate: "2022-01-02",
-    role: "client",
-    date: new Date("2022-01-02"),
-  },
-  {
-    id: "derv1ws0",
-    name: "Michael Johnson",
-    amount: 837,
-    status: "Inactive",
-    email: "Monserrat44@gmail.com",
-    createdDate: "2022-01-03",
-    role: "Administrator",
-    date: new Date("2022-01-03"),
-  },
-  {
-    id: "5kma53ae",
-    name: "Emily Davis",
-    amount: 874,
-    status: "Active",
-    email: "Silas22@gmail.com",
-    createdDate: "2022-01-04",
-    role: "client",
-    date: new Date("2022-01-04"),
-  },
-  {
-    id: "bhqecj4p",
-    name: "David Brown",
-    amount: 721,
-    status: "Inactive",
-    email: "carmella@hotmail.com",
-    createdDate: "2022-01-05",
-    role: "Administrator",
-    date: new Date("2022-01-05"),
-  },
-  // Add 10 more mock data elements here
-  {
-    id: "8j2k9d3s",
-    name: "Sarah Johnson",
-    amount: 523,
-    status: "Active",
-    email: "sarah.johnson@example.com",
-    createdDate: "2022-01-06",
-    role: "client",
-    date: new Date("2022-01-06"),
-  },
-  {
-    id: "4h7f2e1d",
-    name: "Robert Smith",
-    amount: 632,
-    status: "Active",
-    email: "robert.smith@example.com",
-    createdDate: "2022-01-07",
-    role: "Administrator",
-    date: new Date("2022-01-07"),
-  },
-  {
-    id: "9g3h5j2k",
-    name: "Jessica Davis",
-    amount: 421,
-    status: "Inactive",
-    email: "jessica.davis@example.com",
-    createdDate: "2022-01-08",
-    role: "client",
-    date: new Date("2022-01-08"),
-  },
-  {
-    id: "6f4d2s1a",
-    name: "Michael Johnson",
-    amount: 837,
-    status: "Active",
-    email: "michael.johnson@example.com",
-    createdDate: "2022-01-09",
-    role: "Administrator",
-    date: new Date("2022-01-09"),
-  },
-  {
-    id: "3a1s2d4f",
-    name: "Emily Brown",
-    amount: 874,
-    status: "Inactive",
-    email: "emily.brown@example.com",
-    createdDate: "2022-01-10",
-    role: "client",
-    date: new Date("2022-01-10"),
-  },
-  {
-    id: "5j3k9d2s",
-    name: "Daniel Smith",
-    amount: 721,
-    status: "Active",
-    email: "daniel.smith@example.com",
-    createdDate: "2022-01-11",
-    role: "Administrator",
-    date: new Date("2022-01-11"),
-  },
-];
+// const data = [
+//   {
+//     id: "m5gr84i9",
+//     name: "John Doe",
+//     amount: 316,
+//     status: "Active",
+//     email: "ken99@yahoo.com",
+//     createdDate: "2022-01-01",
+//     role: "Administrator",
+//     date: new Date("2022-01-01"),
+//   },
+//   {
+//     id: "3u1reuv4",
+//     name: "Jane Smith",
+//     amount: 242,
+//     status: "Active",
+//     email: "Abe45@gmail.com",
+//     createdDate: "2022-01-02",
+//     role: "client",
+//     date: new Date("2022-01-02"),
+//   },
+//   {
+//     id: "derv1ws0",
+//     name: "Michael Johnson",
+//     amount: 837,
+//     status: "Inactive",
+//     email: "Monserrat44@gmail.com",
+//     createdDate: "2022-01-03",
+//     role: "Administrator",
+//     date: new Date("2022-01-03"),
+//   },
+//   {
+//     id: "5kma53ae",
+//     name: "Emily Davis",
+//     amount: 874,
+//     status: "Active",
+//     email: "Silas22@gmail.com",
+//     createdDate: "2022-01-04",
+//     role: "client",
+//     date: new Date("2022-01-04"),
+//   },
+//   {
+//     id: "bhqecj4p",
+//     name: "David Brown",
+//     amount: 721,
+//     status: "Inactive",
+//     email: "carmella@hotmail.com",
+//     createdDate: "2022-01-05",
+//     role: "Administrator",
+//     date: new Date("2022-01-05"),
+//   },
+//   // Add 10 more mock data elements here
+//   {
+//     id: "8j2k9d3s",
+//     name: "Sarah Johnson",
+//     amount: 523,
+//     status: "Active",
+//     email: "sarah.johnson@example.com",
+//     createdDate: "2022-01-06",
+//     role: "client",
+//     date: new Date("2022-01-06"),
+//   },
+//   {
+//     id: "4h7f2e1d",
+//     name: "Robert Smith",
+//     amount: 632,
+//     status: "Active",
+//     email: "robert.smith@example.com",
+//     createdDate: "2022-01-07",
+//     role: "Administrator",
+//     date: new Date("2022-01-07"),
+//   },
+//   {
+//     id: "9g3h5j2k",
+//     name: "Jessica Davis",
+//     amount: 421,
+//     status: "Inactive",
+//     email: "jessica.davis@example.com",
+//     createdDate: "2022-01-08",
+//     role: "client",
+//     date: new Date("2022-01-08"),
+//   },
+//   {
+//     id: "6f4d2s1a",
+//     name: "Michael Johnson",
+//     amount: 837,
+//     status: "Active",
+//     email: "michael.johnson@example.com",
+//     createdDate: "2022-01-09",
+//     role: "Administrator",
+//     date: new Date("2022-01-09"),
+//   },
+//   {
+//     id: "3a1s2d4f",
+//     name: "Emily Brown",
+//     amount: 874,
+//     status: "Inactive",
+//     email: "emily.brown@example.com",
+//     createdDate: "2022-01-10",
+//     role: "client",
+//     date: new Date("2022-01-10"),
+//   },
+//   {
+//     id: "5j3k9d2s",
+//     name: "Daniel Smith",
+//     amount: 721,
+//     status: "Active",
+//     email: "daniel.smith@example.com",
+//     createdDate: "2022-01-11",
+//     role: "Administrator",
+//     date: new Date("2022-01-11"),
+//   },
+// ];
+
+
 
 export const columns = [
   {
@@ -206,7 +207,7 @@ export const columns = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Role
+        Role
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -230,8 +231,11 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit User</DropdownMenuItem>
-            <DropdownMenuItem>Delete User</DropdownMenuItem>
+              <DropdownMenuItem>Edit User</DropdownMenuItem>
+            <DropdownMenuItem>
+              {" "}
+              <form action={deleteUser}>Delete User</form>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -239,14 +243,18 @@ export const columns = [
   },
 ];
 
-export function UserTable() {
+export function UserTable(data) {
+  console.log("userdata", data);
+ 
+
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [rowSelection, setRowSelection] = React.useState({});
+  
 
   const table = useReactTable({
-    data,
+    data: data.data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -268,7 +276,7 @@ export function UserTable() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Search by email..."
           value={table.getColumn("email")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
