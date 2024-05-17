@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Checkbox } from "@/components/ui/checkbox";
+import { addUser } from "@/app/lib/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,10 +12,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+
+export const metadata = {
+  title: "Add User | CRM App"
+}
+
 
 export default function page() {
   return (
-    <form>
+    <form action={addUser}>
       {" "}
       <Card className="mx-auto max-w-xl">
         <CardHeader>
@@ -46,24 +61,44 @@ export default function page() {
                   required
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="flex gap-2">
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="is admin" />
                   <label
-                    htmlFor="terms2"
+                    htmlFor="term1"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Make admin
+                    Is Admin
                   </label>
+                  <Select>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value={true}>Yes</SelectItem>
+                        <SelectItem value={false}>No</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="is admin" />
                   <label
-                    htmlFor="terms2"
+                    htmlFor="term2"
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Is active
                   </label>
+                  <Select>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value={true}>Yes</SelectItem>
+                        <SelectItem value={false}>No</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>

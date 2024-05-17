@@ -19,6 +19,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { addProduct } from "@/app/lib/actions";
 
 export const metadata = {
   title: "Add Product | CRM App",
@@ -26,7 +27,7 @@ export const metadata = {
 export default function page() {
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <div className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4">
+      <form action={addProduct} className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4">
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" className="h-7 w-7" onclick="">
             <ChevronLeft className="h-4 w-4" />
@@ -39,7 +40,7 @@ export default function page() {
             <Button variant="outline" size="sm">
               Discard
             </Button>
-            <Button size="sm">Save Product</Button>
+            <Button size="sm" type="submit">Save Product</Button>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
@@ -60,14 +61,16 @@ export default function page() {
                       type="text"
                       className="w-full"
                       placeholder="Enter product's name"
+                      required
                     />
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="description">Description</Label>
                     <Textarea
-                      id="description"
+                      id="desc"
                       placeholder="Enter product's description"
                       className="min-h-32"
+                      required
                     />
                   </div>
                 </div>
@@ -84,7 +87,7 @@ export default function page() {
                 <Label htmlFor="size">Size</Label>
 
                 <Input
-                  id="name"
+                  id="size"
                   type="string"
                   className="w-full"
                   placeholder="S/M/L/XL"
@@ -93,7 +96,7 @@ export default function page() {
                   {" "}
                   <Label htmlFor="color">Color</Label>
                   <Input
-                    id="name"
+                    id="color"
                     type="string"
                     className="w-full"
                     placeholder="Enter product's color"
@@ -107,8 +110,8 @@ export default function page() {
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="clothing">Clothing</SelectItem>
-                      <SelectItem value="electronics">Electronics</SelectItem>
+                      <SelectItem value="mobiles">Mobiles</SelectItem>
+                      <SelectItem value="computers">Computers</SelectItem>
                       <SelectItem value="accessories">Accessories</SelectItem>
                     </SelectContent>
                   </Select>
@@ -132,6 +135,7 @@ export default function page() {
                       type="number"
                       className="w-full"
                       placeholder="0"
+                      required
                     />
                   </div>
                 </div>
@@ -163,6 +167,7 @@ export default function page() {
                   type="number"
                   className="w-full"
                   placeholder="0"
+                  required
                 />
               </CardContent>
             </Card>
@@ -174,7 +179,7 @@ export default function page() {
           </Button>
           <Button size="sm">Save Product</Button>
         </div>
-      </div>
+      </form>
     </main>
   );
 }

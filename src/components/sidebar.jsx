@@ -55,7 +55,7 @@ export default function Sidebar() {
     {
       id: 5,
       name: "contact",
-      link: "/dashboard/contact",
+      link: "/dashboard/contactlogs",
       tooltiptext: "Contact",
       logo: <ContactRoundIcon className="h-5 w-5" />,
     },
