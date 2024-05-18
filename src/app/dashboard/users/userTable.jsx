@@ -55,7 +55,7 @@ export const columns = [
     cell: ({ row }) => {
       return (
         <img
-          src={row.original.profile_Picture}
+          src={row.original.profile_Picture|| "/noavatar.png"}
           alt="User profile picture"
           className="w-10 h-10 rounded-full border"
         />
@@ -73,16 +73,6 @@ export const columns = [
       <div className="capitalize">{row.getValue("status")}</div>
     ),
   },
-
-  {
-    accessorKey: "email",
-    name: "Email",
-  },
-
-  {
-    accessorKey: "createdDate",
-    name: "Created Date",
-  },
   {
     accessorKey: "role",
     header: ({ column }) => {
@@ -97,6 +87,15 @@ export const columns = [
       );
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue("role")}</div>,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+
+  {
+    accessorKey: "createdDate",
+    header: "Created On",
   },
   {
     id: "actions",
@@ -115,7 +114,9 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit User</DropdownMenuItem>
+            <Link href={`/dashboard/users/${row.original.id}`}>
+              <DropdownMenuItem>Edit User</DropdownMenuItem>
+            </Link>
             <form action={deleteUser}>
               <DropdownMenuItem> Delete User</DropdownMenuItem>
             </form>
