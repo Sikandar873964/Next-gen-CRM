@@ -10,6 +10,7 @@ import {
 import {
   ContactRoundIcon,
   Home,
+  LayoutDashboardIcon,
   LineChart,
   ListTreeIcon,
   Package,
@@ -77,8 +78,9 @@ export default function Sidebar() {
             href="/dashboard"
             className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-transparent text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
           >
-            <Image src="/logo.webp" width={50} height={50} alt="Konnect Inc" />
-            <span className="sr-only">Konnect Inc</span>
+            {/* <Image src="" width={50} height={50} alt="App logo" /> */}
+            <LayoutDashboardIcon className="h-8 w-8 bg-primary text-white dark:text-black  p-1 rounded-full" />
+            <span className="sr-only">CRM Logo</span>
           </Link>
           {sidebarItems.map((item, index) => (
             <Tooltip key={index}>
