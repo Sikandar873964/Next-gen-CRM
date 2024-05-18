@@ -23,8 +23,11 @@ import {
   Package,
   ContactRoundIcon,
 } from "lucide-react";
+import { auth, signOut } from "@/auth";
 
-export default function Header() {
+export default async function Header() {
+  const { user } = await auth();
+
   const sidebarItems = [
     {
       id: 1,
@@ -102,7 +105,7 @@ export default function Header() {
 
         <div className="hidden md:flex">
           {" "}
-            {/* This div is for breadcrumbs */}
+          {/* This div is for breadcrumbs */}
         </div>
 
         <div className="relative ml-auto flex-1 md:grow-0">
@@ -116,17 +119,24 @@ export default function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer size-9">
-              <AvatarImage src="https://th.bing.com/th/id/OIP.7PZ6Ag_krpcM1hfmCoZ1KgAAAA?rs=1&pid=ImgDetMain" />
+              <AvatarImage src={user.img || "/noavatar.png"} />
               <AvatarFallback>EU</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Example User</DropdownMenuLabel>
-            <DropdownMenuLabel>example@examplemail.com</DropdownMenuLabel>
+            <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
+            <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <form>Logout</form>
+            <DropdownMenuItem className="w-full">
+              <form
+                action={async () => {
+                  "use server";
+                  await signOut();
+                }}
+              >
+                <Button type="submit" size="sm"> Logout</Button>
+              </form>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
