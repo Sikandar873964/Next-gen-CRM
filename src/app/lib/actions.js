@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import { signIn } from "@/auth";
 
 export const addUser = async (formData) => {
-  const { username, email, password, phone, address, isAdmin, isActive } =
+  const { username, email, password, phone, address, img, isAdmin, isActive } =
     Object.fromEntries(formData);
 
   try {
@@ -22,6 +22,7 @@ export const addUser = async (formData) => {
       email,
       password: hashedPassword,
       phone,
+      img,
       address,
       isAdmin,
       isActive,

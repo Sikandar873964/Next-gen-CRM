@@ -62,7 +62,9 @@ const customerSchema = new mongoose.Schema(
       type: String,
     },
     product: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true,
     },
   },
   { timestamps: true }
@@ -70,29 +72,15 @@ const customerSchema = new mongoose.Schema(
 
 const enquirySchema = new mongoose.Schema(
   {
-    customername: {
-      type: String,
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Customer',
       required: true,
-      unique: true,
-      min: 3,
-      max: 20,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    img: {
-      type: String,
-    },
-    phone: {
-      type: String,
-    },
-    address: {
-      type: String,
     },
     product: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true,
     },
     type: {
       type: String,
