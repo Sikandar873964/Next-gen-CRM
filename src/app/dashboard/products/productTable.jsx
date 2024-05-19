@@ -53,28 +53,39 @@ import { deleteProduct } from "@/app/lib/actions";
 export const columns = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Product Name",
   },
 
   {
     accessorKey: "description",
-    name: "Description",
+    header: "Description",
   },
   {
     accessorKey: "stock",
-    name: "Stock",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost" className="px-1"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Stock
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("stock")}</div>,
   },
   {
     accessorKey: "color",
-    name: "Color",
+    header: "Color",
   },
   {
     accessorKey: "createdAt",
-    name: "Added on",
+    header: "Added on",
   },
   {
     accessorKey: "price",
-    header: () => <div className="text-right">Price</div>,
+    header: "Price",
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
 
@@ -149,7 +160,7 @@ export function ProductTable(data) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter by title..."
+          placeholder="Search Product by Name..."
           value={table.getColumn("title")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
