@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { Product, User } from "./models";
+import { Product, User, Customer, Enquiry } from "./models";
 import { connectToDB } from "./utils";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
@@ -129,6 +129,7 @@ export const updateProduct = async (formData) => {
 
 export const deleteUser = async (formData) => {
   const { id } = Object.fromEntries(formData);
+  console.log("id for deleted user is", id);
 
   try {
     connectToDB();
@@ -155,10 +156,53 @@ export const deleteProduct = async (formData) => {
   revalidatePath("/dashboard/products");
 };
 
+export const addCustomer = async (formData) => {
+  // Convert formData to an object
+  const { customername, email, phone, address, img, product } =
+    Object.fromEntries(formData);
+
+  console.log("customername:", customername);
+  console.log("email:", email);
+  console.log("phone:", phone);
+  console.log("address:", address);
+  console.log("img:", img);
+  console.log("product:", product);
+  try {
+    // Connect to the database
+    connectToDB();
+
+    // Validate if the referenced product exists
+    // const productExists = await Product.findById(product);
+    // if (!productExists) {
+    //   throw new Error('Product not found');
+    // }
+
+    // Create a new customer instance with the provided data
+    const newCustomer = new Customer({
+      customername,
+      email,
+      phone,
+      img,
+      address,
+      product,
+    });
+
+    // Save the customer to the database
+    await newCustomer.save();
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to create customer!");
+  }
+
+  // Revalidate the path and redirect as needed
+  revalidatePath("/dashboard/customers");
+  redirect("/dashboard/customers");
+};
+
 export const authenticate = async (prevState, formData) => {
   const { username, password } = Object.fromEntries(formData);
-console.log("username", username);
-console.log("password", password);
+  console.log("username", username);
+  console.log("password", password);
   try {
     await signIn("credentials", { username, password });
   } catch (err) {
