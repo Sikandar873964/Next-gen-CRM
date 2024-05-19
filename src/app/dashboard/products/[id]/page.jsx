@@ -28,6 +28,8 @@ export const metadata = {
 export default async function page({ params }) {
   const { id } = params;
   const product = await fetchProduct(id);
+  console.log(product, "is the product");
+
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <form
@@ -35,7 +37,7 @@ export default async function page({ params }) {
         className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4"
       >
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" className="h-7 w-7" onclick="">
+          <Button variant="outline" size="icon" className="h-7 w-7">
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Back</span>
           </Button>
@@ -53,7 +55,8 @@ export default async function page({ params }) {
         </div>
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-0">
+          <Input type="hidden" name="id" value={product.id} />
+            <Card>
               <CardHeader>
                 <CardTitle>Product Details</CardTitle>
                 <CardDescription>
@@ -65,20 +68,23 @@ export default async function page({ params }) {
                   <div className="grid gap-3">
                     <Label htmlFor="name">Name</Label>
                     <Input
-                      id="name"
+                      id="title"
+                      name="title"
                       type="text"
                       className="w-full"
-                      placeholder={product.title}
-                    
+                      defaultValue={product.title}
+                      required
                     />
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="desc"
-                      placeholder={product.desc}
+                      name="desc"
+                      placeholder="Enter product's description"
                       className="min-h-32"
-                    
+                      defaultValue={product.desc}
+                      required
                     />
                   </div>
                 </div>
@@ -96,18 +102,22 @@ export default async function page({ params }) {
 
                 <Input
                   id="size"
+                  name="size"
                   type="string"
                   className="w-full"
-                  placeholder={product.size}
+                  placeholder="Size"
+                  defaultValue={product.size}
                 />
                 <div>
                   {" "}
                   <Label htmlFor="color">Color</Label>
                   <Input
                     id="color"
+                    name="color"
                     type="string"
                     className="w-full"
-                    placeholder={product.color}
+                    placeholder="Enter product's color"
+                    defaultValue={product.color}
                   />
                 </div>
 
@@ -128,7 +138,7 @@ export default async function page({ params }) {
             </Card>
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-3">
+            <Card>
               <CardHeader>
                 <CardTitle>Product Stock</CardTitle>
                 <CardDescription>
@@ -139,11 +149,13 @@ export default async function page({ params }) {
                 <div className="grid gap-6">
                   <div className="grid gap-3">
                     <Input
-                      id="name"
+                      id="stock"
+                      name="stock"
                       type="number"
                       className="w-full"
-                      placeholder={product.stock}
-                    
+                      placeholder="0"
+                      defaultValue={product.stock}
+                      required
                     />
                   </div>
                 </div>
@@ -157,9 +169,11 @@ export default async function page({ params }) {
               <CardContent>
                 <Input
                   id="image"
+                  name="image"
                   type="text"
                   className="w-full"
                   placeholder="https://example.com/image.jpg"
+                  defaultValue={product.image}
                 />
               </CardContent>
             </Card>
@@ -171,11 +185,13 @@ export default async function page({ params }) {
               <CardContent className="flex flex-row items-center">
                 <PoundSterlingIcon className="h-6 w-6 mr-2 text-muted-foreground" />
                 <Input
-                  id="name"
+                  id="price"
+                  name="price"
                   type="number"
                   className="w-full"
-                  placeholder={product.price}
-                
+                  placeholder="0"
+                  defaultValue={product.price}
+                  required
                 />
               </CardContent>
             </Card>
@@ -185,7 +201,7 @@ export default async function page({ params }) {
           <Button variant="outline" size="sm">
             Discard
           </Button>
-          <Button size="sm">Save Product</Button>
+          <Button size="sm" type="submit">Save Product</Button>
         </div>
       </form>
     </main>

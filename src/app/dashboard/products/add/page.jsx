@@ -27,29 +27,34 @@ export const metadata = {
 export default function page() {
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <form action={addProduct} className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4">
+      <form
+        action={addProduct}
+        className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4"
+      >
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" className="h-7 w-7" onclick="">
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Back</span>
           </Button>
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-           New Product
+            New Product
           </h1>
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             <Button variant="outline" size="sm">
               Discard
             </Button>
-            <Button size="sm" type="submit">Save Product</Button>
+            <Button size="sm" type="submit">
+              Save Product
+            </Button>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-0">
+            <Card>
               <CardHeader>
                 <CardTitle>Product Details</CardTitle>
                 <CardDescription>
-               Add details about the product here
+                  Add details about the product here
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -57,7 +62,8 @@ export default function page() {
                   <div className="grid gap-3">
                     <Label htmlFor="name">Name</Label>
                     <Input
-                      id="name"
+                      id="title"
+                      name="title"
                       type="text"
                       className="w-full"
                       placeholder="Enter product's name"
@@ -68,6 +74,7 @@ export default function page() {
                     <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="desc"
+                      name="desc"
                       placeholder="Enter product's description"
                       className="min-h-32"
                       required
@@ -88,15 +95,17 @@ export default function page() {
 
                 <Input
                   id="size"
+                  name="size"
                   type="string"
                   className="w-full"
-                  placeholder="S/M/L/XL"
+                  placeholder="Size"
                 />
                 <div>
                   {" "}
                   <Label htmlFor="color">Color</Label>
                   <Input
                     id="color"
+                    name="color"
                     type="string"
                     className="w-full"
                     placeholder="Enter product's color"
@@ -120,7 +129,7 @@ export default function page() {
             </Card>
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-3">
+            <Card>
               <CardHeader>
                 <CardTitle>Product Stock</CardTitle>
                 <CardDescription>
@@ -131,7 +140,8 @@ export default function page() {
                 <div className="grid gap-6">
                   <div className="grid gap-3">
                     <Input
-                      id="name"
+                      id="stock"
+                      name="stock"
                       type="number"
                       className="w-full"
                       placeholder="0"
@@ -149,6 +159,7 @@ export default function page() {
               <CardContent>
                 <Input
                   id="image"
+                  name="image"
                   type="text"
                   className="w-full"
                   placeholder="https://example.com/image.jpg"
@@ -163,7 +174,8 @@ export default function page() {
               <CardContent className="flex flex-row items-center">
                 <PoundSterlingIcon className="h-6 w-6 mr-2 text-muted-foreground" />
                 <Input
-                  id="name"
+                  id="price"
+                  name="price"
                   type="number"
                   className="w-full"
                   placeholder="0"
@@ -177,7 +189,7 @@ export default function page() {
           <Button variant="outline" size="sm">
             Discard
           </Button>
-          <Button size="sm">Save Product</Button>
+          <Button size="sm" type="submit">Save Product</Button>
         </div>
       </form>
     </main>
