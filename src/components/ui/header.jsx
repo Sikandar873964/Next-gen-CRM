@@ -128,14 +128,14 @@ export default async function Header() {
             <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="w-full">
-              <form
+            <DropdownMenuItem>
+              <form className="w-full"
                 action={async () => {
                   "use server";
                   await signOut();
                 }}
               >
-                <Button type="submit" size="sm"> Logout</Button>
+                <button className="w-full text-left hover:text-red-500 transition"> Logout</button>
               </form>
             </DropdownMenuItem>
           </DropdownMenuContent>
