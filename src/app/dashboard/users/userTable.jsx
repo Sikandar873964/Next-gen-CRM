@@ -55,7 +55,7 @@ export const columns = [
     cell: ({ row }) => {
       return (
         <img
-          src={row.original.profile_Picture|| "/noavatar.png"}
+          src={row.original.profile_Picture || "/noavatar.png"}
           alt="User profile picture"
           className="w-10 h-10 rounded-full border"
         />
@@ -117,9 +117,21 @@ export const columns = [
             <Link href={`/dashboard/users/${row.original.id}`}>
               <DropdownMenuItem>Edit User</DropdownMenuItem>
             </Link>
-            <form action={deleteUser}>
-              <DropdownMenuItem> Delete User</DropdownMenuItem>
-            </form>
+            <DropdownMenuItem>
+              {" "}
+              <form action={deleteUser} className="w-full">
+                <Input
+                  className="hidden"
+                  type="hidden"
+                  name="id"
+                  value={row.original.id}
+                />
+                <button type="submit" className="text-red-500 text-left w-full">
+                  {" "}
+                  Delete User
+                </button>
+              </form>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -294,5 +306,3 @@ export function UserTable(data) {
     </div>
   );
 }
-
-
