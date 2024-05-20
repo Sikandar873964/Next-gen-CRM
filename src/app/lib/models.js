@@ -39,14 +39,14 @@ const customerSchema = new mongoose.Schema(
     customername: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
       min: 3,
       max: 20,
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     img: {
       type: String,
