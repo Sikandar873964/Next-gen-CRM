@@ -11,12 +11,13 @@ async function getData() {
 
   const formattedData = response.customers.map((customer) => ({
     name: customer.customername,
+    id: customer._id.toString(),
     phone: customer.phone,
     email: customer.email,
     address: customer.address,
     createdDate: customer.createdAt,
     product: customer.product.title, // Only take the product title
-  }));
+  }))
 
   return formattedData;
 }

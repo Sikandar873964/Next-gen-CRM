@@ -8,7 +8,6 @@ export const metadata = {
 
   async function getData() {
     const response = await fetchUsers();
-    console.log(response)
 
     const formattedData = response.users.map((user) => ({
       role: user.isAdmin ? 'Administrator' : 'not admin',
@@ -17,8 +16,9 @@ export const metadata = {
       profile_Picture: user.img,
       status: user.isActive ? 'active' : 'inactive',
       createdDate: user.createdAt,
+      id: user._id.toString(),
     }));
-  
+  console.log(formattedData, "is the formatted data");
     return formattedData;
   }
 
