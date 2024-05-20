@@ -156,6 +156,20 @@ export const deleteProduct = async (formData) => {
   revalidatePath("/dashboard/products");
 };
 
+export const deleteCustomer = async (formData) => {
+  const { id } = Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+    await Customer.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to delete customer!");
+  }
+
+  revalidatePath("/dashboard/customers");
+};
+
 export const addCustomer = async (formData) => {
   // Convert formData to an object
   const { customername, email, phone, address, img, product } =
@@ -198,6 +212,85 @@ export const addCustomer = async (formData) => {
   revalidatePath("/dashboard/customers");
   redirect("/dashboard/customers");
 };
+
+export const updateCustomer = async (formData) => {
+  // Convert formData to an object
+  const { id, customername, email, phone, address, img, product } =
+    Object.fromEntries(formData);
+
+  try {
+    // Connect to the database
+    connectToDB();
+
+    // Validate if the referenced product exists
+    // const productExists = await Product.findById(product);
+    // if (!productExists) {
+    //   throw new Error('Product not found');
+    // }
+
+    // Create an object with the fields to update
+    const updateFields = {
+      customername,
+      email,
+      phone,
+      img,
+      address,
+      product,
+    };
+
+    // Remove empty fields from the update object
+    Object.keys(updateFields).forEach(
+      (key) =>
+        (updateFields[key] === "" || undefined) && delete updateFields[key]
+    );
+
+    // Update the customer in the database
+    await Customer.findByIdAndUpdate(id, updateFields);
+    console.log("customer updated");
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to update customer!");
+  }
+
+  // Revalidate the path and redirect as needed
+  revalidatePath("/dashboard/customers");
+  redirect("/dashboard/customers");
+};
+
+export const addEnquiry = async (formData) => {
+  const { customerId, productId, message } = Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+
+    // Validate if the referenced customer exists
+    const customerExists = await Customer.findById(customerId);
+    if (!customerExists) {
+      throw new Error('Customer not found');
+    }
+
+    // Validate if the referenced product exists
+    const productExists = await Product.findById(productId);
+    if (!productExists) {
+      throw new Error('Product not found');
+    }
+
+    const newEnquiry = new Enquiry({
+      customer: customerId,
+      product: productId,
+      message,
+    });
+
+    await newEnquiry.save();
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to create enquiry!");
+  }
+
+  revalidatePath("/dashboard/contactlogs");
+  redirect("/dashboard/contactlogs");
+};
+
 
 export const authenticate = async (prevState, formData) => {
   const { username, password } = Object.fromEntries(formData);

@@ -1,4 +1,4 @@
-import { Product, User, Customer } from "./models";
+import { Product, User, Customer, Enquiry } from "./models";
 import { connectToDB } from "./utils";
 
 export const fetchUsers = async (q) => {
@@ -76,4 +76,29 @@ export const fetchCustomers = async (q) => {
     console.log(err);
     throw new Error("Failed to fetch customers!");
   }
+};
+
+export const fetchCustomer = async (id) => {
+  try {
+    connectToDB();
+    const customer = await Customer.findById(id);
+    return customer;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to fetch customer!");
+  }
+};
+
+export const fetchEnquiries = async (q) => {
+    const regex = new RegExp(q, "i");
+
+    try {
+        connectToDB();
+        const count = await Enquiry.find({ title: { $regex: regex } }).count();
+        const enquiries = await Enquiry.find({ title: { $regex: regex } }).populate("product customer");
+        return { count, enquiries };
+    } catch (err) {
+        console.log(err);
+        throw new Error("Failed to fetch enquiries!");
+    }
 };
