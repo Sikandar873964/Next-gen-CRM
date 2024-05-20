@@ -258,27 +258,19 @@ export const updateCustomer = async (formData) => {
 };
 
 export const addEnquiry = async (formData) => {
-  const { customerId, productId, message } = Object.fromEntries(formData);
+  const { customer, type, product } =
+    Object.fromEntries(formData);
+    console.log("customer recieved is", customer);
+    console.log("type recieved is", type);
+    console.log("product recieved is", product);
 
   try {
     connectToDB();
 
-    // Validate if the referenced customer exists
-    const customerExists = await Customer.findById(customerId);
-    if (!customerExists) {
-      throw new Error('Customer not found');
-    }
-
-    // Validate if the referenced product exists
-    const productExists = await Product.findById(productId);
-    if (!productExists) {
-      throw new Error('Product not found');
-    }
-
     const newEnquiry = new Enquiry({
-      customer: customerId,
-      product: productId,
-      message,
+      customer,
+      type,
+      product,
     });
 
     await newEnquiry.save();
