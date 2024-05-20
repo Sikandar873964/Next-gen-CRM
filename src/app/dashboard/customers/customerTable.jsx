@@ -215,7 +215,9 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit Customer</DropdownMenuItem>
+            <Link href={`/dashboard/customers/${row.original.id}`}>
+              <DropdownMenuItem>Edit Customer</DropdownMenuItem>
+            </Link>
             <form action={deleteCustomer}>
               <DropdownMenuItem>
                 <Input type="hidden" name="id" value={row.original.id} />
