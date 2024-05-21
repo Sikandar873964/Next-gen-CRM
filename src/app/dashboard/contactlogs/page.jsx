@@ -3,7 +3,7 @@ import { ContactTable } from "./contactTable";
 import { fetchEnquiries } from "@/app/lib/data";
 
 export const metadata = {
-    title: 'Users | CRM App',
+    title: 'Contact Logs | CRM App',
   }
 
   async function getData() {
