@@ -72,21 +72,28 @@ export const columns = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("stock")}</div>,
-  },
-  {
-    accessorKey: "color",
-    header: "Color",
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Added on",
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
-    cell: ({ row }) => {
+        },
+        cell: ({ row }) => <div className="lowercase">{row.getValue("stock")}</div>,
+      },
+      {
+        accessorKey: "color",
+        header: "Color",
+      },
+      {
+        accessorKey: "createdAt",
+        header: "Added on",
+        cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt"));
+      const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+      const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      return <div>{formattedDate} {formattedTime}</div>;
+        },
+      },
+      {
+        accessorKey: "price",
+        header: "Price",
+        cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
 
       // Format the price as a dollar price

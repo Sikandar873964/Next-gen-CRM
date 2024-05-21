@@ -96,6 +96,13 @@ export const columns = [
   {
     accessorKey: "createdDate",
     header: "Created On",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdDate"));
+      const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+      const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      return <div>{formattedDate} {formattedTime}</div>;
+    } 
   },
   {
     id: "actions",
