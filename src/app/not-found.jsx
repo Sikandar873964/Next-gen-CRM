@@ -1,3 +1,5 @@
+//Global 404 error page for the application
+
 import { ThemeToggle } from "@/components/theme-button";
 import React from "react";
 import { Button } from "@/components/ui/button";
