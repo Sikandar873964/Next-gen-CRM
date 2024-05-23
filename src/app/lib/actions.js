@@ -70,6 +70,21 @@ export const updateUser = async (formData) => {
   redirect("/dashboard/users");
 };
 
+export const deleteUser = async (formData) => {
+  const { id } = Object.fromEntries(formData);
+  console.log("id for deleted user is", id);
+
+  try {
+    connectToDB();
+    await User.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to delete user!");
+  }
+
+  revalidatePath("/dashboard/users");
+};
+
 export const addProduct = async (formData) => {
   const { title, desc, price, stock, color, size } =
     Object.fromEntries(formData);
@@ -127,21 +142,6 @@ export const updateProduct = async (formData) => {
   redirect("/dashboard/products");
 };
 
-export const deleteUser = async (formData) => {
-  const { id } = Object.fromEntries(formData);
-  console.log("id for deleted user is", id);
-
-  try {
-    connectToDB();
-    await User.findByIdAndDelete(id);
-  } catch (err) {
-    console.log(err);
-    throw new Error("Failed to delete user!");
-  }
-
-  revalidatePath("/dashboard/users");
-};
-
 export const deleteProduct = async (formData) => {
   const { id } = Object.fromEntries(formData);
 
@@ -154,20 +154,6 @@ export const deleteProduct = async (formData) => {
   }
 
   revalidatePath("/dashboard/products");
-};
-
-export const deleteCustomer = async (formData) => {
-  const { id } = Object.fromEntries(formData);
-
-  try {
-    connectToDB();
-    await Customer.findByIdAndDelete(id);
-  } catch (err) {
-    console.log(err);
-    throw new Error("Failed to delete customer!");
-  }
-
-  revalidatePath("/dashboard/customers");
 };
 
 export const addCustomer = async (formData) => {
@@ -264,6 +250,20 @@ export const updateCustomer = async (formData) => {
   redirect("/dashboard/customers");
 };
 
+export const deleteCustomer = async (formData) => {
+  const { id } = Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+    await Customer.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to delete customer!");
+  }
+
+  revalidatePath("/dashboard/customers");
+};
+
 export const addEnquiry = async (formData) => {
   const { customer, type, product, status } =
     Object.fromEntries(formData);
@@ -286,6 +286,35 @@ export const addEnquiry = async (formData) => {
   } catch (err) {
     console.log(err);
     throw new Error("Failed to create enquiry!");
+  }
+
+  revalidatePath("/dashboard/contactlogs");
+  redirect("/dashboard/contactlogs");
+};
+
+export const updateEnquiry = async (formData) => {
+  const { id, customer, type, product, status } =
+    Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+
+    const updateFields = {
+      customer,
+      type,
+      product,
+      status,
+    };
+
+    Object.keys(updateFields).forEach(
+      (key) =>
+        (updateFields[key] === "" || undefined) && delete updateFields[key]
+    );
+
+    await Enquiry.findByIdAndUpdate(id, updateFields);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to update enquiry!");
   }
 
   revalidatePath("/dashboard/contactlogs");

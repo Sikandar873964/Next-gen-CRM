@@ -2,6 +2,8 @@ import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import mongoose from "mongoose";
 
+
+// Utility function for shadcn UI
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
 }

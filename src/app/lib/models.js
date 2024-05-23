@@ -41,7 +41,6 @@ const customerSchema = new mongoose.Schema(
       required: true,
       // unique: true,
       min: 3,
-      max: 20,
     },
     email: {
       type: String,
@@ -81,6 +80,9 @@ const enquirySchema = new mongoose.Schema(
     type: {
       type: String,
     },
+    status: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
@@ -108,6 +110,10 @@ const userSchema = new mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false,
+    },
+    companyName: {
+      type: String,
+      required: true,
     },
     isActive: {
       type: Boolean,
