@@ -218,6 +218,13 @@ export const updateCustomer = async (formData) => {
   const { id, customername, email, phone, address, img, product } =
     Object.fromEntries(formData);
 
+    console.log("customername:", customername);
+    console.log("email:", email);
+    console.log("phone:", phone);
+    console.log("address:", address);
+    console.log("img:", img);
+    console.log("product:", product);
+    
   try {
     // Connect to the database
     connectToDB();
@@ -258,11 +265,12 @@ export const updateCustomer = async (formData) => {
 };
 
 export const addEnquiry = async (formData) => {
-  const { customer, type, product } =
+  const { customer, type, product, status } =
     Object.fromEntries(formData);
     console.log("customer recieved is", customer);
     console.log("type recieved is", type);
     console.log("product recieved is", product);
+    console.log("status recieved is", status);
 
   try {
     connectToDB();
@@ -271,6 +279,7 @@ export const addEnquiry = async (formData) => {
       customer,
       type,
       product,
+      status,
     });
 
     await newEnquiry.save();
@@ -283,9 +292,24 @@ export const addEnquiry = async (formData) => {
   redirect("/dashboard/contactlogs");
 };
 
+export const deleteEnquiry = async (formData) => {
+  const { id } = Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+    await Enquiry.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to delete enquiry!");
+  }
+
+  revalidatePath("/dashboard/contactlogs");
+  redirect("/dashboard/contactlogs");
+};
+
 
 export const authenticate = async (prevState, formData) => {
-  const { username, password } = Object.fromEntries(formData);
+  const { username, password, companyName } = Object.fromEntries(formData);
   console.log("username", username);
   console.log("password", password);
   try {
