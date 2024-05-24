@@ -121,7 +121,7 @@ export default async function page({ params }) {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <Label htmlFor="category">Category</Label>
                   <Select>
                     <SelectTrigger id="category" aria-label="Select category">
@@ -133,7 +133,7 @@ export default async function page({ params }) {
                       <SelectItem value="accessories">Accessories</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
+                </div> */}
               </CardContent>
             </Card>
           </div>

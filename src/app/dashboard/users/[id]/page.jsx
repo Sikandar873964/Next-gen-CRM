@@ -39,7 +39,7 @@ export default async function page(params) {
       {" "}
       <Card className="mx-auto max-w-xl">
         <CardHeader>
-          <CardTitle className="text-xl">Update user:</CardTitle>
+          <CardTitle className="text-xl">Update user: {user.username}</CardTitle>
           <CardDescription>
             Enter information to create a new user account.
           </CardDescription>
