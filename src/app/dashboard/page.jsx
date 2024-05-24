@@ -1,16 +1,11 @@
 import React from "react";
-import Link from "next/link";
 import {
-  Activity,
-  ArrowUpRight,
   CircleUser,
   CreditCard,
   DollarSign,
-  Euro,
-  Menu,
-  Package2,
-  Search,
+  PhoneIcon,
   Users,
+  UsersRoundIcon,
 } from "lucide-react";
 import {
   Card,
@@ -19,8 +14,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { fetchUsers } from "../lib/data";
+import { fetchCustomers } from "../lib/data";
+import { fetchProducts } from "../lib/data";
+import { fetchEnquiries } from "../lib/data";
 
-function page() {
+
+async function page() {
+  const users = await fetchUsers();
+  const customers = await fetchCustomers();
+  const products = await fetchProducts();
+  const enquiries = await fetchEnquiries();
   return (
     <div className="space-y-4">
       <h1
@@ -30,42 +34,45 @@ function page() {
         Dashboard
       </h1>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        <Card x-chunk="dashboard-01-chunk-0">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Transactions
+              Enquiries
             </CardTitle>
-            <Euro className="h-4 w-4 text-muted-foreground" />
+
+            <PhoneIcon  className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">5</div>
+            <div className="text-2xl font-bold">{enquiries.count}</div>
           </CardContent>
         </Card>
-        <Card x-chunk="dashboard-01-chunk-1">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <UsersRoundIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
+            <div className="text-2xl font-bold">{users.count}</div>
           </CardContent>
         </Card>
-        <Card x-chunk="dashboard-01-chunk-2">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Products</CardTitle>
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
+            <div className="text-2xl font-bold">{products.count}</div>
           </CardContent>
         </Card>
-        <Card x-chunk="dashboard-01-chunk-3">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+   
+
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
+            <div className="text-2xl font-bold">{customers.count}</div>
           </CardContent>
         </Card>
       </div>

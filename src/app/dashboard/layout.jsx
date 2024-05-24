@@ -1,6 +1,7 @@
 import SideNav from "@/components/sidebar";
 import Header from "@/components/ui/header";
 
+// Global layout for the dashboard route
 const Layout = ({ children }) => {
   return (
     <>
