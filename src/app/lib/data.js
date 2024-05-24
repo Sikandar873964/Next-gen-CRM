@@ -90,15 +90,28 @@ export const fetchCustomer = async (id) => {
 };
 
 export const fetchEnquiries = async (q) => {
-    const regex = new RegExp(q, "i");
+  const regex = new RegExp(q, "i"); // Case-insensitive regular expression for the query
 
-    try {
-        connectToDB();
-        const count = await Enquiry.find({ title: { $regex: regex } }).count();
-        const enquiries = await Enquiry.find({ title: { $regex: regex } }).populate("product customer");
-        return { count, enquiries };
-    } catch (err) {
-        console.log(err);
-        throw new Error("Failed to fetch enquiries!");
-    }
+  try {
+    await connectToDB();
+
+    const count = await Enquiry.find({}).countDocuments();
+    const enquiries = await Enquiry.find({}).populate("product customer");
+    return { count, enquiries };
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to fetch enquiries!");
+  }
+};
+
+export const fetchEnquiry = async (id) => {
+  try {
+    await connectToDB();
+    const enquiry = await Enquiry.findById(id);
+    // console.log(enquiry, "is the enquiry data");
+    return enquiry;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to fetch enquiry!");
+  }
 };
