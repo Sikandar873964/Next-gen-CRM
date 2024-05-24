@@ -28,7 +28,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -65,35 +64,49 @@ export const columns = [
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost" className="px-1"
+          variant="ghost"
+          className="px-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Stock
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("stock")}</div>,
-      },
-      {
-        accessorKey: "color",
-        header: "Color",
-      },
-      {
-        accessorKey: "createdAt",
-        header: "Added on",
-        cell: ({ row }) => {
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("stock")}</div>,
+  },
+  {
+    accessorKey: "color",
+    header: "Color",
+  },
+  {
+    accessorKey: "size",
+    header: "Size (inches)",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Added on",
+    cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
-      const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-      const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const formattedDate = `${date.getDate()}-${
+        date.getMonth() + 1
+      }-${date.getFullYear()}`;
+      const formattedTime = date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
-      return <div>{formattedDate} {formattedTime}</div>;
-        },
-      },
-      {
-        accessorKey: "price",
-        header: "Price",
-        cell: ({ row }) => {
+      return (
+        <div>
+          {formattedDate} {formattedTime}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
 
       // Format the price as a dollar price
@@ -102,7 +115,7 @@ export const columns = [
         currency: "GBP",
       }).format(price);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="text-left font-medium">{formatted}</div>;
     },
   },
   {
@@ -125,12 +138,20 @@ export const columns = [
             <Link href={`/dashboard/products/${row.original.id}`}>
               <DropdownMenuItem>Edit Product</DropdownMenuItem>
             </Link>
-            <form action={deleteProduct}>
-              <DropdownMenuItem>
-                <Input type="hidden" name="id" value={row.original.id} />
-                Delete Product
-              </DropdownMenuItem>
-            </form>
+            <DropdownMenuItem>
+              <form action={deleteProduct}>
+                <Input
+                  className="hidden"
+                  type="hidden"
+                  name="id"
+                  value={row.original.id}
+                />
+                <button type="submit" className="text-red-500 text-left w-full">
+                  {" "}
+                  Delete Product
+                </button>
+              </form>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

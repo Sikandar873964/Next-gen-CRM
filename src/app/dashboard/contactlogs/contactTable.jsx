@@ -49,6 +49,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
+import { deleteEnquiry } from "@/app/lib/actions";
 
 // const data = [
 //   {
@@ -158,14 +159,35 @@ export const columns = [
     accessorKey: "contactType",
     header: "Contact Type",
     cell: ({ row }) => {
-      return (
-        <Badge>{row.original.contactType}</Badge>
-      );
+      return <Badge>{row.original.contactType}</Badge>;
     },
   },
   {
     accessorKey: "createdDate",
     header: "Created On",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdDate"));
+      const formattedDate = `${date.getDate()}-${
+        date.getMonth() + 1
+      }-${date.getFullYear()}`;
+      const formattedTime = date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      return (
+        <div>
+          {formattedDate} {formattedTime}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      return <Badge>{row.original.status}</Badge>;
+    },
   },
   {
     id: "actions",
@@ -184,8 +206,23 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit Log</DropdownMenuItem>
-            <DropdownMenuItem>Delete Log</DropdownMenuItem>
+            <Link href={`/dashboard/contactlogs/${row.original.id}`}>
+              <DropdownMenuItem>Edit Log</DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem>
+              <form action={deleteEnquiry}>
+                <Input
+                  className="hidden"
+                  type="hidden"
+                  name="id"
+                  value={row.original.id}
+                />
+                <button type="submit" className="text-red-500 text-left w-full">
+                  {" "}
+                  Delete Log
+                </button>
+              </form>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -229,6 +266,34 @@ export function ContactTable(data) {
           }
           className="max-w-sm"
         />
+        {/* <DropdownMenu
+        >
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Toggle contact type <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.contactType}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu> */}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
