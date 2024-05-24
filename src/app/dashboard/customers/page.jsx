@@ -7,7 +7,6 @@ export const metadata = {
 };
 async function getData() {
   const response = await fetchCustomers();
-  console.log(response, "is the response");
 
   const formattedData = response.customers.map((customer) => ({
     name: customer.customername,

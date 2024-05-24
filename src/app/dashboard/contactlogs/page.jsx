@@ -8,14 +8,14 @@ export const metadata = {
 
   async function getData() {
     const response = await fetchEnquiries();
-    console.log(response, "is the response");
 
     const formattedData = response.enquiries.map((enquiry) => ({
-      name: enquiry.customername,
+      name: enquiry.customer.customername,
       id: enquiry._id.toString(),
-      phone: enquiry.phone,
-      email: enquiry.email,
-      address: enquiry.address,
+      contactType: enquiry.type,
+      phone: enquiry.customer.phone,
+      email: enquiry.customer.email,
+      status: enquiry.status,
       createdDate: enquiry.createdAt,
       product: enquiry.product.title, // Only take the product title
     })
@@ -25,6 +25,7 @@ export const metadata = {
 
   export default async function page() {
     const data = await getData();
+    // console.log(data);
 
     return (
       <div>

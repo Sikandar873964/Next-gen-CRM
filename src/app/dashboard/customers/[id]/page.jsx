@@ -26,15 +26,15 @@ export const metadata = {
 };
 
 export default async function page(params) {
-  console.log(params, "is the params");
+  // console.log(params, "is the params");
   const { id } = params.params;
-  console.log(id, "is the id");
+  // console.log(id, "is the id");
   const customer = await fetchCustomer(id);
-  console.log(customer);
+  // console.log(customer, "is the customer");
 
   const productsData = await fetchProducts();
   const products = productsData?.products;
-  console.log(products);
+  // console.log(products);
 
   return (
     <form action={updateCustomer}>
@@ -87,7 +87,9 @@ export default async function page(params) {
                   <Label htmlFor="product">Product*</Label>
                   <Select id="product" name="product" required>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a product" />
+                      <SelectValue 
+                      // placeholder={customer.product.title}
+                      placeholder="Select a product"/>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup label="Products">
