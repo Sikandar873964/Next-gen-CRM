@@ -66,7 +66,7 @@ export default async function page(params) {
         <Card className="mx-auto max-w-xl">
           <CardHeader>
             <CardTitle className="text-xl">
-              Update Enquiry for:{customerData.customername}
+              Update Enquiry for: {customerData.customername}
             </CardTitle>
             <CardDescription>
               Update contact log information for existing enquiry.

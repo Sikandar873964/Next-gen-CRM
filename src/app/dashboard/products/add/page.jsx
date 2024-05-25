@@ -112,7 +112,7 @@ export default function page() {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <Label htmlFor="category">Category</Label>
                   <Select>
                     <SelectTrigger id="category" aria-label="Select category">
@@ -124,7 +124,7 @@ export default function page() {
                       <SelectItem value="accessories">Accessories</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
+                </div> */}
               </CardContent>
             </Card>
           </div>
