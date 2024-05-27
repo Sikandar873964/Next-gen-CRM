@@ -32,13 +32,23 @@ const LoginForm = () => {
           <CardContent>
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">User Name</Label>
+                <Label htmlFor="username">User Name</Label>
                 <Input
                   id="username"
                   name="username"
                   type="text"
                   placeholder="John Doe"
                   required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="company">Company Name</Label>
+                <Input
+                  id="company"
+                  name="company"
+                  type="text"
+                  placeholder="Company Name"
+                  // required
                 />
               </div>
               <div className="grid gap-2">

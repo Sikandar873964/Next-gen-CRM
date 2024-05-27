@@ -113,7 +113,7 @@ const userSchema = new mongoose.Schema(
     },
     companyName: {
       type: String,
-      required: true,
+   
     },
     isActive: {
       type: Boolean,
