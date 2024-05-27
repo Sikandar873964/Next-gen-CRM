@@ -16,6 +16,7 @@ async function getData() {
     stock: product.stock,
     createdAt: product.createdAt,
     color: product.color,
+    size: product.size,
     id: product._id.toString(),
   }));
 

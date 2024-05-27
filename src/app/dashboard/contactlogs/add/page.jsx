@@ -8,9 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -32,10 +30,10 @@ export default async function page() {
 
   const customersData = await fetchCustomers();
   const customers = customersData?.customers;
-  console.log(customers);
+  // console.log(customers);
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center md:py-10">
       <form action={addEnquiry}>
         {" "}
         <Card className="mx-auto max-w-xl">
@@ -107,6 +105,30 @@ export default async function page() {
                           <SelectItem value="Sales">Sales</SelectItem>
                           <SelectItem value="Support">Support</SelectItem>
                           <SelectItem value="Referral">Referral</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="flex gap-2 mx-auto">
+                  <div className="flex items-center space-x-2">
+                    <label
+                      htmlFor="status"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Enquiry Status
+                    </label>
+                    <Select name="status" id="status">
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Open">Open</SelectItem>
+                          <SelectItem value="In Process">In Process</SelectItem>
+                          <SelectItem value="Completed">Completed</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
