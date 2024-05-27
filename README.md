@@ -40,11 +40,15 @@ To run the project locally, follow these steps:
 - Next.js: The React framework used for building the dashboard.
 - Tailwind CSS: For styling the components.
 - Shadcn/ui: For reusable radix UI derived components.
+- MongoDB: For the database
 
 A full list of dependencies can be viewed in `package.json`
 
 ## Reference documentation
 
+Below is the documentation for each of the tools used to build this CRM system: -
+
 - [Next.js](https://nextjs.org/docs)
 - [Shadcn/ui](https://ui.shadcn.com/docs)
 - [Tailwind CSS](https://tailwindcss.com/docs/installation)
+- [MongoDB](https://www.mongodb.com/docs/)
