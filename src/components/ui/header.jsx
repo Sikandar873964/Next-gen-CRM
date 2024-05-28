@@ -27,6 +27,7 @@ import { auth, signOut } from "@/auth";
 
 export default async function Header() {
   const { user } = await auth();
+  console.log(user);
 
   const sidebarItems = [
     {
@@ -124,8 +125,9 @@ export default async function Header() {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
-            <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+            <DropdownMenuLabel><span className="text-primary/70">Username: </span>{user.username}</DropdownMenuLabel>
+            <DropdownMenuLabel><span className="text-primary/70">Email:</span> {user.email}</DropdownMenuLabel>
+            <DropdownMenuLabel><span className="text-primary/70">Company ID:</span> {user.companyID}</DropdownMenuLabel>
 
             <DropdownMenuSeparator />
             <DropdownMenuItem>

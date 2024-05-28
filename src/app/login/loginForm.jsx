@@ -42,20 +42,20 @@ const LoginForm = () => {
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="company">Company Name</Label>
+                <Label htmlFor="companyid">Company ID</Label>
                 <Input
-                  id="company"
-                  name="company"
+                  id="companyid"
+                  name="companyid"
                   type="text"
-                  placeholder="Company Name"
-                  // required
+                  placeholder="Company ID"
+                  required
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" name="password" type="password" placeholder="...." required />
+                <Input id="password" name="password" type="password" placeholder="******" required />
               </div>
               <Button type="submit" className="w-full">
                 Login
@@ -63,7 +63,7 @@ const LoginForm = () => {
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <Link href="/signin" className="underline">
+              <Link href="/signup" className="underline">
                 Sign up
               </Link>
             </div>
