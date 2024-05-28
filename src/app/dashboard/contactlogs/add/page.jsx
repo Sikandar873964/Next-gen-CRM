@@ -18,7 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { fetchProducts, fetchCustomers } from "@/app/lib/data";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Add Enquiry | CRM App",
@@ -30,7 +32,9 @@ export default async function page() {
 
   const customersData = await fetchCustomers();
   const customers = customersData?.customers;
-  // console.log(customers);
+
+  const session = await auth();
+  const companyID = session?.user?.companyID;
 
   return (
     <div className="flex justify-center items-center md:py-10">
@@ -108,6 +112,15 @@ export default async function page() {
                         </SelectGroup>
                       </SelectContent>
                     </Select>
+
+
+                    <Input
+                      id="companyID"
+                      name="companyID"
+                      type="hidden"
+                      value={companyID}
+                      required
+                    />
                   </div>
                 </div>
               </div>

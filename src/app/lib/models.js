@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema(
     size: {
       type: String,
     },
+    companyID: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
@@ -61,6 +65,10 @@ const customerSchema = new mongoose.Schema(
       ref: 'Product',
       required: true,
     },
+    companyID: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
@@ -83,9 +91,14 @@ const enquirySchema = new mongoose.Schema(
     status: {
       type: String,
     },
+    companyID: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -113,7 +126,11 @@ const userSchema = new mongoose.Schema(
     },
     companyName: {
       type: String,
-   
+      required: true,
+    },
+    companyID: {
+      type: String,
+      required: true,
     },
     isActive: {
       type: Boolean,

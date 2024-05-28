@@ -18,13 +18,16 @@ import { fetchUsers } from "../lib/data";
 import { fetchCustomers } from "../lib/data";
 import { fetchProducts } from "../lib/data";
 import { fetchEnquiries } from "../lib/data";
-
+import { auth } from "@/auth";
 
 async function page() {
   const users = await fetchUsers();
   const customers = await fetchCustomers();
   const products = await fetchProducts();
   const enquiries = await fetchEnquiries();
+
+  const session = await auth()
+  console.log(session, "session")
   return (
     <div className="space-y-4">
       <h1
@@ -40,7 +43,7 @@ async function page() {
               Enquiries
             </CardTitle>
 
-            <PhoneIcon  className="h-4 w-4 text-muted-foreground" />
+            <PhoneIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{enquiries.count}</div>
@@ -68,7 +71,7 @@ async function page() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
-   
+
 
           </CardHeader>
           <CardContent>

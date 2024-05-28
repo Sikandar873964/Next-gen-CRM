@@ -28,7 +28,7 @@ export const metadata = {
 export default async function page(params) {
   // console.log(params, "is the params");
   const { id } = params.params;
-  // console.log(id, "is the id");
+  console.log(id, "is the id");
   const customer = await fetchCustomer(id);
   // console.log(customer, "is the customer");
 
@@ -57,6 +57,13 @@ export default async function page(params) {
                   name="customername"
                   required
                   defaultValue={customer.customername}
+                />
+                <Input
+                  id="id"
+                  name="id"
+                  type="hidden"
+                  required
+                  defaultValue={id}
                 />
               </div>
             </div>
