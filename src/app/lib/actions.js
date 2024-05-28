@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import { signIn } from "@/auth";
 
 export const addUser = async (formData) => {
-  const { username, email, password, phone, address, img, isAdmin, isActive } =
+  const { username, email, password, phone, address, img, isAdmin, isActive, companyID } =
     Object.fromEntries(formData);
 
   try {
@@ -26,6 +26,7 @@ export const addUser = async (formData) => {
       address,
       isAdmin,
       isActive,
+      companyID,
     });
 
     await newUser.save();
@@ -86,7 +87,7 @@ export const deleteUser = async (formData) => {
 };
 
 export const addProduct = async (formData) => {
-  const { title, desc, price, stock, color, size } =
+  const { title, desc, price, stock, color, size, companyID } =
     Object.fromEntries(formData);
 
   try {
@@ -99,6 +100,7 @@ export const addProduct = async (formData) => {
       stock,
       color,
       size,
+      companyID,
     });
 
     await newProduct.save();
@@ -158,26 +160,11 @@ export const deleteProduct = async (formData) => {
 
 export const addCustomer = async (formData) => {
   // Convert formData to an object
-  const { customername, email, phone, address, img, product } =
+  const { customername, email, phone, address, img, product, companyID } =
     Object.fromEntries(formData);
-
-  console.log("customername:", customername);
-  console.log("email:", email);
-  console.log("phone:", phone);
-  console.log("address:", address);
-  console.log("img:", img);
-  console.log("product:", product);
   try {
     // Connect to the database
     connectToDB();
-
-    // Validate if the referenced product exists
-    // const productExists = await Product.findById(product);
-    // if (!productExists) {
-    //   throw new Error('Product not found');
-    // }
-
-    // Create a new customer instance with the provided data
     const newCustomer = new Customer({
       customername,
       email,
@@ -185,6 +172,7 @@ export const addCustomer = async (formData) => {
       img,
       address,
       product,
+      companyID,
     });
 
     // Save the customer to the database
@@ -204,13 +192,14 @@ export const updateCustomer = async (formData) => {
   const { id, customername, email, phone, address, img, product } =
     Object.fromEntries(formData);
 
-    console.log("customername:", customername);
-    console.log("email:", email);
-    console.log("phone:", phone);
-    console.log("address:", address);
-    console.log("img:", img);
-    console.log("product:", product);
-    
+  console.log("id:", id);
+  console.log("customername:", customername);
+  console.log("email:", email);
+  console.log("phone:", phone);
+  console.log("address:", address);
+  console.log("img:", img);
+  console.log("product:", product);
+
   try {
     // Connect to the database
     connectToDB();
@@ -265,13 +254,8 @@ export const deleteCustomer = async (formData) => {
 };
 
 export const addEnquiry = async (formData) => {
-  const { customer, type, product, status } =
+  const { customer, type, product, status, companyID } =
     Object.fromEntries(formData);
-    console.log("customer recieved is", customer);
-    console.log("type recieved is", type);
-    console.log("product recieved is", product);
-    console.log("status recieved is", status);
-
   try {
     connectToDB();
 
@@ -280,6 +264,7 @@ export const addEnquiry = async (formData) => {
       type,
       product,
       status,
+      companyID,
     });
 
     await newEnquiry.save();
@@ -338,14 +323,48 @@ export const deleteEnquiry = async (formData) => {
 
 
 export const authenticate = async (prevState, formData) => {
-  const { username, password, companyName } = Object.fromEntries(formData);
-  console.log("username", username);
-  console.log("password", password);
+  const { username, password, companyid } = Object.fromEntries(formData);
   try {
-    await signIn("credentials", { username, password });
+    await signIn("credentials", { username, password, companyid });
   } catch (err) {
+    console.error(err);
     if (err.message.includes("CredentialsSignin")) {
       return "Wrong Credentials";
+    }
+    throw err;
+  }
+};
+
+
+export const signup = async (prevState, formData) => {
+  const { username, email, password, companyid, company, isAdmin } =
+    Object.fromEntries(formData);
+  console.log("username", username);
+  console.log("email", email);
+  console.log("password", password)
+  console.log("companyid", companyid);
+  console.log("company", company);
+  try {
+    connectToDB();
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      companyID: companyid,
+      companyName: company,
+      isAdmin,
+    });
+
+    await newUser.save();
+
+    redirect("/login");
+  } catch (err) {
+    if (err.message.includes("E11000")) {
+      return "User already exists";
     }
     throw err;
   }

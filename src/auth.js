@@ -10,7 +10,7 @@ const login = async (credentials) => {
     connectToDB();
     const user = await User.findOne({ username: credentials.username });
 
-    if (!user || !user.isAdmin) throw new Error("Wrong credentials!");
+    if (!user) throw new Error("User Not Found!");
 
     const isPasswordCorrect = await bcrypt.compare(
       credentials.password,
@@ -46,6 +46,7 @@ export const { signIn, signOut, auth } = NextAuth({
       if (user) {
         token.username = user.username;
         token.img = user.img;
+        token.companyID = user.companyID; // Add this line
       }
       return token;
     },
@@ -53,6 +54,7 @@ export const { signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user.username = token.username;
         session.user.img = token.img;
+        session.user.companyID = token.companyID; // Add this line
       }
       return session;
     },
