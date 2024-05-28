@@ -20,11 +20,16 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { addProduct } from "@/app/lib/actions";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Add Product | CRM App",
 };
-export default function page() {
+export default async function page() {
+
+  const session = await auth();
+  const companyID = session?.user?.companyID;
+
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <form
@@ -67,6 +72,13 @@ export default function page() {
                       type="text"
                       className="w-full"
                       placeholder="Enter product's name"
+                      required
+                    />
+                    <Input
+                      id="companyID"
+                      name="companyID"
+                      type="hidden"
+                      value={companyID}
                       required
                     />
                   </div>

@@ -17,18 +17,21 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Add User | CRM App"
 }
 
 
-export default function page() {
+export default async function page() {
+
+  const session = await auth();
+  const companyID = session?.user?.companyID;
+
   return (
     <form action={addUser}>
       {" "}
@@ -71,6 +74,13 @@ export default function page() {
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
+              <Input
+                      id="companyID"
+                      name="companyID"
+                      type="hidden"
+                      value={companyID}
+                      required
+                    />
               <div className="flex gap-2 mx-auto">
                 <div className="flex items-center space-x-2">
                   <label

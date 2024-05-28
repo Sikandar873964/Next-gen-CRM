@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { fetchProducts } from "@/app/lib/data";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Add Customer | CRM App",
@@ -30,6 +31,9 @@ export default async function page() {
   const productsData = await fetchProducts();
   const products = productsData?.products;
   console.log(products);
+
+  const session = await auth();
+  const companyID = session?.user?.companyID;
 
   return (
     <form action={addCustomer}>
@@ -73,22 +77,29 @@ export default async function page() {
                   placeholder="m@example.com"
                   required
                 />
+                <Input
+                  id="companyID"
+                  name="companyID"
+                  type="hidden"
+                  value={companyID}
+                  required
+                />
               </div>
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="email">Profile Picture URL</Label>
-                <Input
-                  id="img"
-                  type="url"
-                  name="img"
-                  placeholder="https://example.com/image.jpg"
-                />
-              </div>
-              <div className="grid gap-2">
+              <Label htmlFor="email">Profile Picture URL</Label>
+              <Input
+                id="img"
+                type="url"
+                name="img"
+                placeholder="https://example.com/image.jpg"
+              />
+            </div>
+            <div className="grid gap-2">
               <Label htmlFor="product">Product*</Label>
               <Select id="product" name="product" required>
                 <SelectTrigger>
-                <SelectValue placeholder="Select a product" />
+                  <SelectValue placeholder="Select a product" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup label="Products">
@@ -110,7 +121,7 @@ export default async function page() {
                 placeholder="Type your address here."
               />
             </div>
-           
+
             <Button type="submit" className="w-full">
               Create customer
             </Button>
