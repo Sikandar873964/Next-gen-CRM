@@ -1,5 +1,5 @@
 import { ThemeToggle } from "@/components/theme-button";
-import SignInForm from "./signInForm";
+import SignInForm from "./signUpForm";
 
 export const metadata = {
   title: "Sign Up | CRM App",
