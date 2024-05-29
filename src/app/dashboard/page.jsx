@@ -90,22 +90,21 @@ async function page() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Customer Support
+             Authorization Levels
             </CardTitle>
             <CircleUser className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24/7 Live Chat</div>
+            <div className="text-2xl font-bold">Role Based Access Control</div>
             <CardDescription className="mt-2">
-              Our CRM app provides 24/7 live chat support to assist you with any
-              questions or issues you may have.
+             Role based access control ensures only authorized users can access the data.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Sales Analytics
+              Dynamic Updates
             </CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -113,6 +112,20 @@ async function page() {
             <div className="text-2xl font-bold">Real-time Data</div>
             <CardDescription className="mt-2">
               Everything is updated fast and in real time using Next.js' server actions!
+            </CardDescription>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Supports everyone
+            </CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">Multi Tenant Architecture</div>
+            <CardDescription className="mt-2">
+              Multi tenant architecture of the database ensures only your data is visible to you.
             </CardDescription>
           </CardContent>
         </Card>
