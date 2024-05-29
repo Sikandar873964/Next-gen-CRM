@@ -21,13 +21,19 @@ import { fetchEnquiries } from "../lib/data";
 import { auth } from "@/auth";
 
 async function page() {
-  const users = await fetchUsers();
-  const customers = await fetchCustomers();
-  const products = await fetchProducts();
-  const enquiries = await fetchEnquiries();
-
   const session = await auth()
-  console.log(session, "session")
+  const companyID = session?.user?.companyID;
+
+  let users = await fetchUsers();
+  users = users.users.filter(user => user.companyID === companyID);
+  let customers = await fetchCustomers();
+  customers = customers.customers.filter(customer => customer.companyID === companyID);
+  let products = await fetchProducts();
+  products = products.products.filter(product => product.companyID === companyID);
+  let enquiries = await fetchEnquiries();
+  enquiries = enquiries.enquiries.filter(enquiry => enquiry.companyID === companyID);
+
+  // console.log(users, customers, products, enquiries);
   return (
     <div className="space-y-4">
       <h1
@@ -46,7 +52,7 @@ async function page() {
             <PhoneIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{enquiries.count}</div>
+            <div className="text-2xl font-bold">{enquiries.length}</div>
           </CardContent>
         </Card>
         <Card>
@@ -55,7 +61,7 @@ async function page() {
             <UsersRoundIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{users.count}</div>
+            <div className="text-2xl font-bold">{users.length}</div>
           </CardContent>
         </Card>
         <Card>
@@ -64,7 +70,7 @@ async function page() {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{products.count}</div>
+            <div className="text-2xl font-bold">{products.length}</div>
           </CardContent>
         </Card>
         <Card>
@@ -75,7 +81,7 @@ async function page() {
 
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{customers.count}</div>
+            <div className="text-2xl font-bold">{customers.length}</div>
           </CardContent>
         </Card>
       </div>

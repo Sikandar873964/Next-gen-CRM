@@ -1,27 +1,35 @@
 import React from "react";
-import { CustomerTable } from "./CustomerTable";
+import { CustomerTable } from "./customerTable";
 import { fetchCustomers } from "@/app/lib/data";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Customers | CRM App",
 };
-async function getData() {
-  const response = await fetchCustomers();
-
-  const formattedData = response.customers.map((customer) => ({
-    name: customer.customername,
-    id: customer._id.toString(),
-    phone: customer.phone,
-    email: customer.email,
-    address: customer.address,
-    createdDate: customer.createdAt,
-    product: customer.product.title, // Only take the product title
-  }))
-
-  return formattedData;
-}
 
 export default async function page() {
+
+const session = await auth();
+const companyID = session?.user?.companyID;
+
+  async function getData() {
+    const response = await fetchCustomers();
+
+    const formattedData = response.customers
+      .filter(customer => customer.companyID === companyID)
+      .map((customer) => ({
+        name: customer.customername,
+        id: customer._id.toString(),
+        phone: customer.phone,
+        email: customer.email,
+        address: customer.address,
+        createdDate: customer.createdAt,
+        product: customer.product.title, // Only take the product title
+      }))
+
+    return formattedData;
+  }
+  
   const data = await getData();
 
   return (
@@ -30,7 +38,7 @@ export default async function page() {
       <p className="text-sm text-muted-foreground">
         Add, view, edit or remove Customers from the CRM
       </p>
-      <CustomerTable data={data}/>
+      <CustomerTable data={data} />
     </div>
   );
 }

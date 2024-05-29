@@ -1,31 +1,37 @@
 import React from "react";
 import { ContactTable } from "./contactTable";
 import { fetchEnquiries } from "@/app/lib/data";
+import { auth } from "@/auth";
 
 export const metadata = {
     title: 'Contact Logs | CRM App',
   }
 
-  async function getData() {
-    const response = await fetchEnquiries();
-
-    const formattedData = response.enquiries.map((enquiry) => ({
-      name: enquiry.customer.customername,
-      id: enquiry._id.toString(),
-      contactType: enquiry.type,
-      phone: enquiry.customer.phone,
-      email: enquiry.customer.email,
-      status: enquiry.status,
-      createdDate: enquiry.createdAt,
-      product: enquiry.product.title, // Only take the product title
-    })
-  )
-    return formattedData;
-  }
-
   export default async function page() {
+
+    const session = await auth();
+    const companyID = session?.user?.companyID;
+
+    async function getData() {
+      const response = await fetchEnquiries();
+  
+      const formattedData = response.enquiries
+      .filter(enquiry => enquiry.companyID === companyID)
+      .map((enquiry) => ({
+        name: enquiry.customer.customername,
+        id: enquiry._id.toString(),
+        contactType: enquiry.type,
+        phone: enquiry.customer.phone,
+        email: enquiry.customer.email,
+        status: enquiry.status,
+        createdDate: enquiry.createdAt,
+        product: enquiry.product.title, // Only take the product title
+      })
+    )
+      return formattedData;
+    }
+
     const data = await getData();
-    // console.log(data);
 
     return (
       <div>

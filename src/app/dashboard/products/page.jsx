@@ -1,29 +1,35 @@
 import React from "react";
 import { ProductTable } from "./productTable";
 import { fetchProducts } from "@/app/lib/data";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Products | CRM App",
 };
 
-async function getData() {
-  const response = await fetchProducts();
-
-  const formattedData = response.products.map((product) => ({
-    title: product.title,
-    price: product.price,
-    description: product.desc,
-    stock: product.stock,
-    createdAt: product.createdAt,
-    color: product.color,
-    size: product.size,
-    id: product._id.toString(),
-  }));
-
-  return formattedData;
-}
-
 export default async function page() {
+
+  const session = await auth();
+  const companyID = session?.user?.companyID;
+
+  async function getData() {
+    const response = await fetchProducts();
+
+    const formattedData = response.products
+      .filter(product => product.companyID === companyID)
+      .map((product) => ({
+        title: product.title,
+        price: product.price,
+        description: product.desc,
+        stock: product.stock,
+        createdAt: product.createdAt,
+        color: product.color,
+        size: product.size,
+        id: product._id.toString(),
+      }));
+
+    return formattedData;
+  }
   const data = await getData();
 
   return (
