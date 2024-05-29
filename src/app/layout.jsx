@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 // Global metadata for the application
 export const metadata = {
-  title: "CRM App",
+  title: "Next Gen CRM",
   description: "Created by Sikandar Butt",
 };
 

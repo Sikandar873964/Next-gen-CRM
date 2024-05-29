@@ -79,7 +79,6 @@ export default function SignInForm() {
                 required
               />
             </div>
-            {/* Hidden div to make new user admin */}
             <div className="hidden items-center space-x-2">
                   <label
                     htmlFor="isAdmin"
