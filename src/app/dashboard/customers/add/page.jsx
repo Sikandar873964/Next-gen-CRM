@@ -28,12 +28,12 @@ export const metadata = {
 };
 
 export default async function page() {
-  const productsData = await fetchProducts();
-  const products = productsData?.products;
-  console.log(products);
-
   const session = await auth();
   const companyID = session?.user?.companyID;
+
+  const productsData = await fetchProducts();
+  const products = productsData?.products.filter(product => product.companyID === companyID);
+  console.log(products);
 
   return (
     <form action={addCustomer}>
@@ -104,7 +104,10 @@ export default async function page() {
                 <SelectContent>
                   <SelectGroup label="Products">
                     {products.map((product) => (
-                      <SelectItem key={product._id.toString()} value={product._id.toString()}>
+                      <SelectItem
+                        key={product._id.toString()}
+                        value={product._id.toString()}
+                      >
                         {product.title}
                       </SelectItem>
                     ))}

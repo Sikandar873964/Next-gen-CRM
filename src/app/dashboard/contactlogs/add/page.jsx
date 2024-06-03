@@ -29,8 +29,11 @@ export const metadata = {
 export default async function page() {
   const session = await auth();
   const companyID = session?.user?.companyID;
+  
   const productsData = await fetchProducts();
-  const products = productsData?.products;
+  const products = productsData?.products.filter(
+    (product) => product.companyID === companyID
+  );
 
   const customersData = await fetchCustomers();
   const customers = customersData?.customers.filter(
