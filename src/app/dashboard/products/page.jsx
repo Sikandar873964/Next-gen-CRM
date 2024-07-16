@@ -13,20 +13,18 @@ export default async function page() {
   const companyID = session?.user?.companyID;
 
   async function getData() {
-    const response = await fetchProducts();
+    const response = await fetchProducts("", companyID); // Pass an empty string as query and the companyID
 
-    const formattedData = response.products
-      .filter(product => product.companyID === companyID)
-      .map((product) => ({
-        title: product.title,
-        price: product.price,
-        description: product.desc,
-        stock: product.stock,
-        createdAt: product.createdAt,
-        color: product.color,
-        size: product.size,
-        id: product._id.toString(),
-      }));
+    const formattedData = response.products.map((product) => ({
+      title: product.title,
+      price: product.price,
+      description: product.desc,
+      stock: product.stock,
+      createdAt: product.createdAt,
+      color: product.color,
+      size: product.size,
+      id: product._id.toString(),
+    }));
 
     return formattedData;
   }

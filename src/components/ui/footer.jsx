@@ -12,9 +12,7 @@ export default function Footer() {
           <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
             © {new Date().getFullYear()} Next-CRM
           </p>
-          <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center items-center sm:justify-start">
-            <p> A work by Sikandar Butt</p>
-          </span>
+      
         </div>
       </footer>
     </div>

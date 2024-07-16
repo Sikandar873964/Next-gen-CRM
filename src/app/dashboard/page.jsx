@@ -24,13 +24,13 @@ async function page() {
   const session = await auth()
   const companyID = session?.user?.companyID;
 
-  let users = await fetchUsers();
+  let users = await fetchUsers("", companyID);
   users = users.users.filter(user => user.companyID === companyID);
-  let customers = await fetchCustomers();
+  let customers = await fetchCustomers("", companyID);
   customers = customers.customers.filter(customer => customer.companyID === companyID);
-  let products = await fetchProducts();
+  let products = await fetchProducts("", companyID);
   products = products.products.filter(product => product.companyID === companyID);
-  let enquiries = await fetchEnquiries();
+  let enquiries = await fetchEnquiries("", companyID);
   enquiries = enquiries.enquiries.filter(enquiry => enquiry.companyID === companyID);
 
   // console.log(users, customers, products, enquiries);

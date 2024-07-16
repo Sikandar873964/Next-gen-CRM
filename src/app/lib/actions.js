@@ -3,9 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { Product, User, Customer, Enquiry } from "./models";
 import { connectToDB } from "./utils";
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect } from "next/navigation";
 import bcrypt from "bcrypt";
-import { signIn } from "@/auth";
+import { signIn, auth, signOut } from "@/auth";
 
 export const addUser = async (formData) => {
   const { username, email, password, phone, address, img, isAdmin, isActive, companyID } =
@@ -367,5 +367,34 @@ export const signup = async (prevState, formData) => {
       return "User already exists";
     }
     throw err;
+  }
+};
+
+export const deleteCompanyRecords = async (formData) => {
+  const session = await auth();
+
+  const { companyID: inputCompanyID } = Object.fromEntries(formData);
+  console.log("inputCompanyID is", inputCompanyID);
+
+  const currentCompanyID = session?.user?.companyID;
+
+  if (inputCompanyID !== currentCompanyID) {
+    throw new Error(`Company ID ${currentCompanyID} does not match!`);
+  }
+
+  try {
+    await connectToDB();
+
+    await User.deleteMany({ companyID: currentCompanyID });
+    await Product.deleteMany({ companyID: currentCompanyID });
+    await Customer.deleteMany({ companyID: currentCompanyID });
+    await Enquiry.deleteMany({ companyID: currentCompanyID });
+
+    console.log(`All records for companyID: ${currentCompanyID} have been deleted.`);
+
+    await signOut({ callbackUrl: "/" });
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to delete company records!");
   }
 };

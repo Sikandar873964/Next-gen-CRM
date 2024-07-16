@@ -13,19 +13,17 @@ const session = await auth();
 const companyID = session?.user?.companyID;
 
   async function getData() {
-    const response = await fetchCustomers();
+    const response = await fetchCustomers("", companyID);
 
-    const formattedData = response.customers
-      .filter(customer => customer.companyID === companyID)
-      .map((customer) => ({
-        name: customer.customername,
-        id: customer._id.toString(),
-        phone: customer.phone,
-        email: customer.email,
-        address: customer.address,
-        createdDate: customer.createdAt,
-        product: customer.product.title, // Only take the product title
-      }))
+    const formattedData = response.customers.map((customer) => ({
+      name: customer.customername,
+      id: customer._id.toString(),
+      phone: customer.phone,
+      email: customer.email,
+      address: customer.address,
+      createdDate: customer.createdAt,
+      product: customer?.product?.title || '--',
+    }));
 
     return formattedData;
   }

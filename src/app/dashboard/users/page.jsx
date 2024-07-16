@@ -13,10 +13,10 @@ export default async function page() {
   const companyID = session?.user?.companyID;
 
   async function getData() {
-    const response = await fetchUsers();
+    const response = await fetchUsers("", companyID);
 
     const formattedData = response.users
-      .filter(user => user.companyID === companyID)
+    
       .map((user) => ({
         role: user.isAdmin ? 'Administrator' : 'not admin',
         email: user.email,

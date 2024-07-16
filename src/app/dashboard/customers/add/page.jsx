@@ -31,8 +31,8 @@ export default async function page() {
   const session = await auth();
   const companyID = session?.user?.companyID;
 
-  const productsData = await fetchProducts();
-  const products = productsData?.products.filter(product => product.companyID === companyID);
+  const productsData = await fetchProducts("", companyID);
+  const products = productsData?.products;
   console.log(products);
 
   return (
@@ -96,24 +96,28 @@ export default async function page() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="product">Product*</Label>
-              <Select id="product" name="product" required>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a product" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup label="Products">
-                    {products.map((product) => (
-                      <SelectItem
-                        key={product._id.toString()}
-                        value={product._id.toString()}
-                      >
-                        {product.title}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="product">Related Product</Label>
+              {products && products.length > 0 ? (
+                <Select id="product" name="product">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a product" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup label="Products">
+                      {products.map((product) => (
+                        <SelectItem
+                          key={product._id.toString()}
+                          value={product._id.toString()}
+                        >
+                          {product.title}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              ) : (
+                <p>No products are added.</p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="address">Address</Label>

@@ -30,15 +30,17 @@ export default async function page() {
   const session = await auth();
   const companyID = session?.user?.companyID;
   
-  const productsData = await fetchProducts();
-  const products = productsData?.products.filter(
-    (product) => product.companyID === companyID
-  );
+  const productsData = await fetchProducts("", companyID);
+  const products = productsData?.products
+  // filter(
+  //   (product) => product.companyID === companyID
+  // );
 
-  const customersData = await fetchCustomers();
-  const customers = customersData?.customers.filter(
-    (customer) => customer.companyID === companyID
-  );
+  const customersData = await fetchCustomers("", companyID);
+  const customers = customersData?.customers
+  // filter(
+  //   (customer) => customer.companyID === companyID
+  // );
 
   return (
     <div className="flex justify-center items-center md:py-10">
@@ -76,7 +78,8 @@ export default async function page() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="product">Product Name</Label>
-                <Select id="product" name="product" required>
+                {products && products.length > 0 ? (
+                <Select id="product" name="product">
                   <SelectTrigger>
                     <SelectValue placeholder="Select a product" />
                   </SelectTrigger>
@@ -93,6 +96,9 @@ export default async function page() {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+              ) : (
+                <p className="text-xs underline">No products are added.</p>
+              )}
               </div>
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex gap-2 mx-auto">

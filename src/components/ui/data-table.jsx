@@ -28,7 +28,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -39,7 +38,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -49,101 +47,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { deleteEnquiry } from "@/app/lib/actions";
+import { deleteProduct } from "@/app/lib/actions";
 
-export const columns = [
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "phone",
-    header: "Contact Number",
-  },
-  {
-    accessorKey: "product",
-    header: "Product",
-  },
-  {
-    accessorKey: "contactType",
-    header: "Type",
-    cell: ({ row }) => {
-      return <Badge>{row.original.contactType}</Badge>;
-    },
-  },
-  {
-    accessorKey: "createdDate",
-    header: "Created On",
-    cell: ({ row }) => {
-      const date = new Date(row.getValue("createdDate"));
-      const formattedDate = `${date.getDate()}-${
-        date.getMonth() + 1
-      }-${date.getFullYear()}`;
-      const formattedTime = date.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
 
-      return (
-        <div>
-          {formattedDate} {formattedTime}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      return <Badge>{row.original.status}</Badge>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <Link href={`/dashboard/contactlogs/${row.original.id}`}>
-              <DropdownMenuItem>Edit Log</DropdownMenuItem>
-            </Link>
-            <DropdownMenuItem>
-              <form action={deleteEnquiry}>
-                <Input
-                  className="hidden"
-                  type="hidden"
-                  name="id"
-                  value={row.original.id}
-                />
-                <button type="submit" className="text-red-500 text-left w-full">
-                  {" "}
-                  Delete Log
-                </button>
-              </form>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
-export function ContactTable(data) {
+export function DataTable(data, columns) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -172,41 +79,13 @@ export function ContactTable(data) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search by name..."
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
+          placeholder="Search Product by Name..."
+          value={table.getColumn("title")?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        {/* <DropdownMenu
-        >
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Toggle contact type <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.contactType}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -233,9 +112,9 @@ export function ContactTable(data) {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link href="/dashboard/contactlogs/add/" className="ml-2">
+        <Link href="/dashboard/products/add/" className="ml-2">
           <Button>
-            Add new Log <PlusCircleIcon className="ml-2 h-4 w-4" />
+            Add new product <PlusCircleIcon className="ml-2 h-4 w-4" />
           </Button>
         </Link>
       </div>

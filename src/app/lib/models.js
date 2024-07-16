@@ -63,7 +63,6 @@ const customerSchema = new mongoose.Schema(
     product: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product',
-      required: true,
     },
     companyID: {
       type: String,
@@ -123,10 +122,6 @@ const userSchema = new mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false,
-    },
-    companyName: {
-      type: String,
-      required: true,
     },
     companyID: {
       type: String,

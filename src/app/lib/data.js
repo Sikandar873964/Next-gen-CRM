@@ -1,13 +1,12 @@
 import { Product, User, Customer, Enquiry } from "./models";
 import { connectToDB } from "./utils";
 
-export const fetchUsers = async (q) => {
+export const fetchUsers = async (q, companyID) => {
   const regex = new RegExp(q, "i");
-
   try {
     connectToDB();
-    const count = await User.find({ username: { $regex: regex } }).count();
-    const users = await User.find({ username: { $regex: regex } });
+    const count = await User.find({ username: { $regex: regex }, companyID }).count();
+    const users = await User.find({ username: { $regex: regex }, companyID });
     return { count, users };
   } catch (err) {
     console.log(err);
@@ -29,14 +28,12 @@ export const fetchUser = async (id) => {
   }
 };
 
-export const fetchProducts = async (q) => {
-  console.log(q);
+export const fetchProducts = async (q, companyID) => {
   const regex = new RegExp(q, "i");
-
   try {
     connectToDB();
-    const count = await Product.find({ title: { $regex: regex } }).count();
-    const products = await Product.find({ title: { $regex: regex } });
+    const count = await Product.find({ title: { $regex: regex }, companyID }).count();
+    const products = await Product.find({ title: { $regex: regex }, companyID });
     return { count, products };
   } catch (err) {
     console.log(err);
@@ -55,21 +52,17 @@ export const fetchProduct = async (id) => {
   }
 };
 
-export const fetchCustomers = async (q) => {
-  const regex = new RegExp(q, "i"); // Case-insensitive regular expression for the query
-
+export const fetchCustomers = async (q, companyID) => {
+  const regex = new RegExp(q, "i");
   try {
-    // Connect to the database
     await connectToDB();
-
-    // Count the number of matching customers
-    const count = await Customer.find({
+    const count = await Customer.find({ 
       customername: { $regex: regex },
+      companyID
     }).countDocuments();
-
-    // Find matching customers and populate the product field
-    const customers = await Customer.find({
+    const customers = await Customer.find({ 
       customername: { $regex: regex },
+      companyID
     }).populate("product");
     return { count, customers };
   } catch (err) {
@@ -89,14 +82,12 @@ export const fetchCustomer = async (id) => {
   }
 };
 
-export const fetchEnquiries = async (q) => {
-  const regex = new RegExp(q, "i"); // Case-insensitive regular expression for the query
-
+export const fetchEnquiries = async (q, companyID) => {
+  const regex = new RegExp(q, "i");
   try {
     await connectToDB();
-
-    const count = await Enquiry.find({}).countDocuments();
-    const enquiries = await Enquiry.find({}).populate("product customer");
+    const count = await Enquiry.find({ companyID }).countDocuments();
+    const enquiries = await Enquiry.find({ companyID }).populate("product customer");
     return { count, enquiries };
   } catch (err) {
     console.log(err);

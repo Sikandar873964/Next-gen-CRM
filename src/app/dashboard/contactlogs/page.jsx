@@ -13,7 +13,7 @@ export const metadata = {
     const companyID = session?.user?.companyID;
 
     async function getData() {
-      const response = await fetchEnquiries();
+      const response = await fetchEnquiries("", companyID);
   
       const formattedData = response.enquiries
       .filter(enquiry => enquiry.companyID === companyID)
@@ -25,7 +25,7 @@ export const metadata = {
         email: enquiry.customer.email,
         status: enquiry.status,
         createdDate: enquiry.createdAt,
-        product: enquiry.product.title, // Only take the product title
+        product: enquiry?.product?.title || '--',
       })
     )
       return formattedData;
