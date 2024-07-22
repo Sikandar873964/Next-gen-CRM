@@ -31,26 +31,25 @@ export const metadata = {
 };
 
 export default async function page(params) {
-  // console.log(params, "is the params");
+  // Extract the 'id' parameter from the 'params' object
   const { id } = params.params;
-  // console.log(id, "is the id");
 
+  // Fetch products data
   const productsData = await fetchProducts();
   const products = productsData?.products;
 
+  // Fetch enquiry data based on the 'id'
   const enquiryData = await fetchEnquiry(id);
-  // const enquiry = enquiryData?.enquiry;
-  // console.log(enquiryData, "is the enquiry data");
 
+  // Fetch product data based on the product ID from the enquiry data
   const productID = enquiryData.product.toString();
   const product = await fetchProduct(productID);
   const productTitle = product.title;
-  // console.log(productTitle, "is the product title");
-  // console.log(product, "is the product data");
 
+  // Fetch customer data based on the customer ID from the enquiry data
   const customerData = await fetchCustomer(enquiryData.customer.toString());
-  // console.log(customerData, "is the customer data");
 
+  // Handle form submission to update the enquiry
   async function handleEdit(formData) {
     try {
       await updateEnquiry(formData);
@@ -62,9 +61,9 @@ export default async function page(params) {
   return (
     <div className="flex justify-center items-center md:py-14">
       <form action={updateEnquiry}>
-        {" "}
         <Card className="mx-auto max-w-xl">
           <CardHeader>
+            {/* Display the customer name */}
             <CardTitle className="text-xl">
               Update Enquiry for: {customerData.customername}
             </CardTitle>
@@ -75,6 +74,7 @@ export default async function page(params) {
           <CardContent>
             <div className="grid gap-4">
               <div className="grid gap-2">
+                {/* Hidden input fields for customer and enquiry ID */}
                 <input
                   type="hidden"
                   name="customer"
@@ -88,12 +88,14 @@ export default async function page(params) {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="product">Product Name</Label>
+                {/* Select input for product */}
                 <Select id="product" name="product" required>
                   <SelectTrigger>
                     <SelectValue placeholder={productTitle} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup label="Products">
+                      {/* Render select options for products */}
                       {products.map((product) => (
                         <SelectItem
                           key={product._id.toString()}
@@ -116,6 +118,7 @@ export default async function page(params) {
                     >
                       Enquiry Type
                     </label>
+                    {/* Select input for enquiry type */}
                     <Select name="type" id="type">
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder={enquiryData.type} />
@@ -141,6 +144,7 @@ export default async function page(params) {
                     >
                       Enquiry Status
                     </label>
+                    {/* Select input for enquiry status */}
                     <Select name="status" id="status">
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder={enquiryData.status} />
@@ -157,8 +161,9 @@ export default async function page(params) {
                 </div>
               </div>
 
+              {/* Button to submit the form */}
               <Button type="submit" className="w-full">
-                Update exisitng Enquiry Log
+                Update existing Enquiry Log
               </Button>
             </div>
           </CardContent>

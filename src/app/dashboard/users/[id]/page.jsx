@@ -35,6 +35,7 @@ export default async function page(params) {
   console.log(user);
 
   return (
+    // Form to update user
     <form action={updateUser}>
       {" "}
       <Card className="mx-auto max-w-xl">
@@ -48,16 +49,19 @@ export default async function page(params) {
           <div className="grid gap-4">
             <div className="grid grid-cols-1 gap-4">
               <div className="grid gap-2">
+                {/* Label and input for username */}
                 <Label htmlFor="username">Name*</Label>
                 <Input id="username" placeholder="John Doe" name="username" required defaultValue={user.username} />
               </div>
               <div className="grid gap-2">
+                {/* Label and input for password */}
                 <Label htmlFor="password">Password*</Label>
                 <Input id="password" type="password" name="password" placeholder="...." />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4">
               <div className="grid gap-2">
+                {/* Label and input for email */}
                 <Label htmlFor="email">Email*</Label>
                 <Input
                   id="email"
@@ -69,6 +73,7 @@ export default async function page(params) {
                 />
               </div>
               <div className="grid gap-2">
+                {/* Label and input for profile picture URL */}
                 <Label htmlFor="email">Profile Picture URL</Label>
                 <Input
                   id="img"
@@ -79,6 +84,7 @@ export default async function page(params) {
                 />
               </div>
               <div className="flex gap-2 mx-auto">
+                {/* Is Admin select */}
                 <div className="flex items-center space-x-2">
                   <label
                     htmlFor="isAdmin"
@@ -98,6 +104,7 @@ export default async function page(params) {
                     </SelectContent>
                   </Select>
                 </div>
+                {/* Is Active select */}
                 <div className="flex items-center space-x-2">
                   <label
                     htmlFor="term2"
@@ -121,10 +128,12 @@ export default async function page(params) {
             </div>
 
             <div className="grid gap-2">
+              {/* Label and input for phone */}
               <Label htmlFor="phone">Phone</Label>
               <Input id="phone" placeholder="123-456-7890" name="phone" defaultValue={user.phone} />
             </div>
             <div className="grid gap-2">
+              {/* Label and input for address */}
               <Label htmlFor="address">Address</Label>
               <Textarea
                 id="address"
@@ -134,6 +143,7 @@ export default async function page(params) {
                 defaultValue={user.address}
               />
             </div>
+            {/* Submit Button */}
             <Button type="submit" className="w-full">
               Update user account
             </Button>

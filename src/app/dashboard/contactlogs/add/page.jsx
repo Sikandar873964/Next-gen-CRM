@@ -30,22 +30,18 @@ export default async function page() {
   const session = await auth();
   const companyID = session?.user?.companyID;
   
+  // Fetch products data
   const productsData = await fetchProducts("", companyID);
-  const products = productsData?.products
-  // filter(
-  //   (product) => product.companyID === companyID
-  // );
+  const products = productsData?.products;
 
+  // Fetch customers data
   const customersData = await fetchCustomers("", companyID);
-  const customers = customersData?.customers
-  // filter(
-  //   (customer) => customer.companyID === companyID
-  // );
+  const customers = customersData?.customers;
 
   return (
     <div className="flex justify-center items-center md:py-10">
       <form action={addEnquiry}>
-        {" "}
+        {/* Add an Enquiry Card */}
         <Card className="mx-auto max-w-xl">
           <CardHeader>
             <CardTitle className="text-xl">Add an Enquiry</CardTitle>
@@ -56,7 +52,8 @@ export default async function page() {
           <CardContent>
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="customer">customer Name</Label>
+                {/* Select customer */}
+                <Label htmlFor="customer">Customer Name</Label>
                 <Select id="customer" name="customer" required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a customer" />
@@ -77,32 +74,34 @@ export default async function page() {
                 </Select>
               </div>
               <div className="grid gap-2">
+                {/* Select product */}
                 <Label htmlFor="product">Product Name</Label>
                 {products && products.length > 0 ? (
-                <Select id="product" name="product">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a product" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup label="Products">
-                      {products.map((product) => (
-                        <SelectItem
-                          key={product._id.toString()}
-                          value={product._id.toString()}
-                        >
-                          {product.title}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              ) : (
-                <p className="text-xs underline">No products are added.</p>
-              )}
+                  <Select id="product" name="product">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a product" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup label="Products">
+                        {products.map((product) => (
+                          <SelectItem
+                            key={product._id.toString()}
+                            value={product._id.toString()}
+                          >
+                            {product.title}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <p className="text-xs underline">No products are added.</p>
+                )}
               </div>
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex gap-2 mx-auto">
                   <div className="flex items-center space-x-2">
+                    {/* Select enquiry type */}
                     <label
                       htmlFor="type"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -123,6 +122,7 @@ export default async function page() {
                       </SelectContent>
                     </Select>
 
+                    {/* Hidden input for company ID */}
                     <Input
                       id="companyID"
                       name="companyID"
@@ -136,6 +136,7 @@ export default async function page() {
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex gap-2 mx-auto">
                   <div className="flex items-center space-x-2">
+                    {/* Select enquiry status */}
                     <label
                       htmlFor="status"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -158,6 +159,7 @@ export default async function page() {
                 </div>
               </div>
 
+              {/* Submit button */}
               <Button type="submit" className="w-full">
                 Create New Enquiry Log
               </Button>

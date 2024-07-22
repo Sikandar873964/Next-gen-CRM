@@ -5,6 +5,7 @@ import { connectToDB } from "@/app/lib/utils";
 import { User } from "@/app/lib/models";
 import bcrypt from "bcrypt";
 
+// Function to handle user login
 const login = async (credentials) => {
   try {
     connectToDB();
@@ -26,13 +27,15 @@ const login = async (credentials) => {
   }
 };
 
-export const { signIn, signOut, auth } = NextAuth({
+// Exported functions for sign in, sign out, and authentication
+export const { signIn, signOut, auth, handlers: { GET, POST }} = NextAuth({
   ...authConfig,
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
         try {
           const user = await login(credentials);
+          console.log (user, "is the user")
           return user;
         } catch (err) {
           return null;
@@ -46,7 +49,8 @@ export const { signIn, signOut, auth } = NextAuth({
       if (user) {
         token.username = user.username;
         token.img = user.img;
-        token.companyID = user.companyID; // Add this line
+        token.companyID = user.companyID; // Add this line to include company ID in the token
+        // token.companyName = user.companyName; // Add this line to include company name in the token
       }
       return token;
     },
@@ -54,7 +58,8 @@ export const { signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user.username = token.username;
         session.user.img = token.img;
-        session.user.companyID = token.companyID; // Add this line
+        session.user.companyID = token.companyID;
+        // session.companyName = token.companyName;
       }
       return session;
     },

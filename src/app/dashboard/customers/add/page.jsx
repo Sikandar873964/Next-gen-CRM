@@ -28,16 +28,18 @@ export const metadata = {
 };
 
 export default async function page() {
+  // Authenticate the user
   const session = await auth();
   const companyID = session?.user?.companyID;
 
+  // Fetch products data
   const productsData = await fetchProducts("", companyID);
   const products = productsData?.products;
   console.log(products);
 
   return (
     <form action={addCustomer}>
-      {" "}
+      {/* Customer information card */}
       <Card className="mx-auto max-w-xl">
         <CardHeader>
           <CardTitle className="text-xl">Add new customer</CardTitle>
@@ -48,6 +50,7 @@ export default async function page() {
         <CardContent>
           <div className="grid gap-4">
             <div className="grid grid-cols-1 gap-4">
+              {/* Customer name input */}
               <div className="grid gap-2">
                 <Label htmlFor="customername">Name*</Label>
                 <Input
@@ -57,6 +60,7 @@ export default async function page() {
                   required
                 />
               </div>
+              {/* Phone number input */}
               <div className="grid gap-2">
                 <Label htmlFor="phone">Phone*</Label>
                 <Input
@@ -68,6 +72,7 @@ export default async function page() {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4">
+              {/* Email input */}
               <div className="grid gap-2">
                 <Label htmlFor="email">Email*</Label>
                 <Input
@@ -77,6 +82,7 @@ export default async function page() {
                   placeholder="m@example.com"
                   required
                 />
+                {/* Hidden input for company ID */}
                 <Input
                   id="companyID"
                   name="companyID"
@@ -87,6 +93,7 @@ export default async function page() {
               </div>
             </div>
             <div className="grid gap-2">
+              {/* Profile picture URL input */}
               <Label htmlFor="email">Profile Picture URL</Label>
               <Input
                 id="img"
@@ -96,6 +103,7 @@ export default async function page() {
               />
             </div>
             <div className="grid gap-2">
+              {/* Related product select */}
               <Label htmlFor="product">Related Product</Label>
               {products && products.length > 0 ? (
                 <Select id="product" name="product">
@@ -120,6 +128,7 @@ export default async function page() {
               )}
             </div>
             <div className="grid gap-2">
+              {/* Address textarea */}
               <Label htmlFor="address">Address</Label>
               <Textarea
                 id="address"
@@ -129,6 +138,7 @@ export default async function page() {
               />
             </div>
 
+            {/* Submit button */}
             <Button type="submit" className="w-full">
               Create customer
             </Button>

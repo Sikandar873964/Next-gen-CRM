@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// Product Schema
 const productSchema = new mongoose.Schema(
   {
     title: {
@@ -38,6 +39,7 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+//Customer Schema
 const customerSchema = new mongoose.Schema(
   {
     customername: {
@@ -49,7 +51,8 @@ const customerSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      // unique: true,
+       // unique: true,
+     // unique: true,
     },
     img: {
       type: String,
@@ -72,6 +75,7 @@ const customerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Enquiry Schema
 const enquirySchema = new mongoose.Schema(
   {
     customer: {
@@ -98,6 +102,7 @@ const enquirySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// User Schema
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -141,7 +146,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
+// Exporting the models
 export const User = mongoose.models.User || mongoose.model("User", userSchema); 
 export const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
 export const Customer = mongoose.models.Customer || mongoose.model("Customer", customerSchema);

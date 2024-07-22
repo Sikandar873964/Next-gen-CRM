@@ -13,6 +13,7 @@ import {
   LayoutDashboardIcon,
   Package,
   TrashIcon,
+  TriangleAlertIcon,
   UserCircle2Icon,
   Users2,
 } from "lucide-react";
@@ -31,8 +32,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { deleteCompanyRecords } from "@/app/lib/actions";
-import { useFormState } from "react-dom";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 export default function Sidebar() {
   const sidebarItems = [
@@ -83,8 +84,15 @@ export default function Sidebar() {
 
   // const [state, formAction] = useFormState(deleteCompanyRecords, undefined);
 
-  // const { data: session } = useSession();
-  // console.log("session recieved by app", session);
+  const { data: session } = useSession();
+
+  const [inputCompanyID, setInputCompanyID] = useState("");
+
+  const handleInputChange = (e) => {
+    setInputCompanyID(e.target.value);
+  };
+
+  const isDeleteDisabled = inputCompanyID !== session?.user?.companyID;
 
   return (
     <div>
@@ -118,40 +126,47 @@ export default function Sidebar() {
           {" "}
           <Tooltip>
             <TooltipTrigger asChild>
-    
+              <div>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <DoorOpen className="h-5 w-5 hover:text-red-600 transition-colors cursor-pointer" />
                   </AlertDialogTrigger>
                   <AlertDialogContent>
-                  <form action={deleteCompanyRecords}>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. Doing so will permanently
-                        delete this company from the database.
+                    <form action={deleteCompanyRecords}>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete Company</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you absolutely sure? Doing so will permanently
+                          delete this company from the database.
+                        </AlertDialogDescription>
+                        <AlertDialogDescription className="bg-red-200 w-full dark:bg-red-800/20 text-red-500 rounded py-1 px-1 flex items-center gap-3">
+                          <TriangleAlertIcon />
+                          This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogDescription className="mt-2">
+                        Type your company ID '
+                        <span className="text-red-500 font-semibold">
+                          {session?.user?.companyID}
+                        </span>
+                        ' in the below input field to confirm.
+                        <Input
+                          id="inputCompanyID"
+                          className="col-span-3 my-2"
+                          value={inputCompanyID}
+                          onChange={handleInputChange}
+                        />
                       </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogDescription className="mt-2">
-                      Type your {" "} 
-                      {/* {session.companyID} */}
-                      <span className="text-red-500 font-semibold">
-                    company ID
-                      </span>{" "}
-                      in the below input field to confirm.
-                     
-                      <Input id="inputCompanyID" className="col-span-3 my-2" />
-                    </AlertDialogDescription>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <Button type="submit">Delete</Button>
-                    </AlertDialogFooter>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <Button type="submit" disabled={isDeleteDisabled}>
+                          Delete
+                        </Button>
+                      </AlertDialogFooter>
                     </form>
                   </AlertDialogContent>
                 </AlertDialog>
-             
+              </div>
             </TooltipTrigger>
             <TooltipContent side="right">Delete Company</TooltipContent>
           </Tooltip>

@@ -13,14 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authenticate } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
-import { Form } from "@/components/ui/form";
 
 const LoginForm = () => {
   const [state, formAction] = useFormState(authenticate, undefined);
 
   return (
-    <Form>
-      {" "}
+    <div>
+      {/* The outer form element */}
       <form action={formAction}>
         <Card className="mx-auto max-w-sm">
           <CardHeader>
@@ -32,6 +31,7 @@ const LoginForm = () => {
           <CardContent>
             <div className="grid gap-4">
               <div className="grid gap-2">
+                {/* Label and input for username */}
                 <Label htmlFor="username">User Name</Label>
                 <Input
                   id="username"
@@ -42,6 +42,7 @@ const LoginForm = () => {
                 />
               </div>
               <div className="grid gap-2">
+                {/* Label and input for company ID */}
                 <Label htmlFor="companyid">Company ID</Label>
                 <Input
                   id="companyid"
@@ -53,15 +54,24 @@ const LoginForm = () => {
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
+                  {/* Label and input for password */}
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" name="password" type="password" placeholder="******" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="******"
+                  required
+                />
               </div>
+              {/* Login button */}
               <Button type="submit" className="w-full">
                 Login
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
+              {/* Link to sign up page */}
               Don&apos;t have an account?{" "}
               <Link href="/signup" className="underline">
                 Sign up
@@ -69,9 +79,11 @@ const LoginForm = () => {
             </div>
           </CardContent>
         </Card>
+        {/* Display state if available */}
         {state && state}
       </form>
-    </Form>
+    </div>
   );
-}
+};
+
 export default LoginForm;

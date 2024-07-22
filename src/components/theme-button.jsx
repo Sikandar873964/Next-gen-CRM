@@ -13,7 +13,7 @@ import {
 import { MonitorDotIcon} from "lucide-react"
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme()
+  const { setTheme } = useTheme() // Access the `setTheme` function from the `useTheme` hook
 
   return (
     <DropdownMenu>

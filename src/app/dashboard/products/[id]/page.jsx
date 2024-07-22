@@ -25,6 +25,8 @@ import { updateProduct } from "@/app/lib/actions";
 export const metadata = {
   title: "View Product | CRM App",
 };
+
+// Define the page component
 export default async function page({ params }) {
   const { id } = params;
   const product = await fetchProduct(id);
@@ -36,6 +38,7 @@ export default async function page({ params }) {
         action={updateProduct}
         className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4"
       >
+        {/* Header */}
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" className="h-7 w-7">
             <ChevronLeft className="h-4 w-4" />
@@ -53,9 +56,14 @@ export default async function page({ params }) {
             </Button>
           </div>
         </div>
+
+        {/* Form */}
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
+          {/* Left column */}
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-          <Input type="hidden" name="id" value={product.id} />
+            <Input type="hidden" name="id" value={product.id} />
+
+            {/* Product Details */}
             <Card>
               <CardHeader>
                 <CardTitle>Product Details</CardTitle>
@@ -90,6 +98,8 @@ export default async function page({ params }) {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Additional Details */}
             <Card>
               <CardHeader>
                 <CardTitle>Additional Details</CardTitle>
@@ -99,7 +109,6 @@ export default async function page({ params }) {
               </CardHeader>
               <CardContent className="space-y-2">
                 <Label htmlFor="size">Size</Label>
-
                 <Input
                   id="size"
                   name="size"
@@ -120,24 +129,13 @@ export default async function page({ params }) {
                     defaultValue={product.color}
                   />
                 </div>
-
-                {/* <div>
-                  <Label htmlFor="category">Category</Label>
-                  <Select>
-                    <SelectTrigger id="category" aria-label="Select category">
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="mobiles">Mobiles</SelectItem>
-                      <SelectItem value="computers">Computers</SelectItem>
-                      <SelectItem value="accessories">Accessories</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div> */}
               </CardContent>
             </Card>
           </div>
+
+          {/* Right column */}
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+            {/* Product Stock */}
             <Card>
               <CardHeader>
                 <CardTitle>Product Stock</CardTitle>
@@ -161,6 +159,8 @@ export default async function page({ params }) {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Product Image */}
             <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
               <CardHeader>
                 <CardTitle>Product Image</CardTitle>
@@ -177,6 +177,8 @@ export default async function page({ params }) {
                 />
               </CardContent>
             </Card>
+
+            {/* Product Price */}
             <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle>Product Price</CardTitle>
@@ -197,11 +199,15 @@ export default async function page({ params }) {
             </Card>
           </div>
         </div>
+
+        {/* Mobile buttons */}
         <div className="flex items-center justify-center gap-2 md:hidden">
           <Button variant="outline" size="sm">
             Discard
           </Button>
-          <Button size="sm" type="submit">Save Product</Button>
+          <Button size="sm" type="submit">
+            Save Product
+          </Button>
         </div>
       </form>
     </main>

@@ -21,35 +21,47 @@ import {
 import { updateCustomer } from "@/app/lib/actions";
 import { fetchCustomer } from "@/app/lib/data";
 import { fetchProducts } from "@/app/lib/data";
+import { auth } from "@/auth";
+
 export const metadata = {
   title: "Edit customer | CRM App",
 };
 
 export default async function page(params) {
-  // console.log(params, "is the params");
+
+ // Authenticate the user and get the session
+ const session = await auth();
+ const companyID = session?.user?.companyID;
+
+  // Extract the 'id' parameter from the 'params' object
   const { id } = params.params;
   console.log(id, "is the id");
-  const customer = await fetchCustomer(id);
-  // console.log(customer, "is the customer");
 
-  const productsData = await fetchProducts();
+  // Fetch the customer data using the 'id'
+  const customer = await fetchCustomer(id);
+
+  // Fetch the products data
+  const productsData = await fetchProducts("", companyID);
   const products = productsData?.products;
-  // console.log(products);
+  console.log(products, "are the products");
 
   return (
     <form action={updateCustomer}>
-      {" "}
+      {/* Card component */}
       <Card className="mx-auto max-w-xl">
         <CardHeader>
+          {/* Card title */}
           <CardTitle className="text-xl">Update customer: {customer.customername}</CardTitle>
+          {/* Card description */}
           <CardDescription>
-           Update existing customer account details.
+            Update existing customer account details.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
             <div className="grid grid-cols-1 gap-4">
               <div className="grid gap-2">
+                {/* Label and input for customer name */}
                 <Label htmlFor="customername">Name*</Label>
                 <Input
                   id="customername"
@@ -58,6 +70,7 @@ export default async function page(params) {
                   required
                   defaultValue={customer.customername}
                 />
+                {/* Hidden input for customer id */}
                 <Input
                   id="id"
                   name="id"
@@ -69,6 +82,7 @@ export default async function page(params) {
             </div>
             <div className="grid grid-cols-1 gap-4">
               <div className="grid gap-2">
+                {/* Label and input for email */}
                 <Label htmlFor="email">Email*</Label>
                 <Input
                   id="email"
@@ -80,6 +94,7 @@ export default async function page(params) {
                 />
               </div>
               <div className="grid gap-2">
+                {/* Label and input for profile picture URL */}
                 <Label htmlFor="email">Profile Picture URL</Label>
                 <Input
                   id="img"
@@ -91,21 +106,23 @@ export default async function page(params) {
               </div>
               <div className="flex gap-2 mx-auto w-full">
                 <div className="w-full gap-2">
+                  {/* Label and select for product */}
                   <Label htmlFor="product">Product*</Label>
                   <Select id="product" name="product" required>
                     <SelectTrigger>
+                      {/* Placeholder for selected product */}
                       <SelectValue 
                       // placeholder={customer.product.title}
                       placeholder="Select a product"/>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup label="Products">
+                        {/* Iterate over products and create select options */}
                         {products.map((product) => (
                           <SelectItem
                             key={product._id.toString()}
                             value={product._id.toString()}
                             defaultValue={customer.product._id.toString()}
-                            
                           >
                             {product.title}
                           </SelectItem>
@@ -118,6 +135,7 @@ export default async function page(params) {
             </div>
 
             <div className="grid gap-2">
+              {/* Label and input for phone */}
               <Label htmlFor="phone">Phone*</Label>
               <Input
                 id="phone"
@@ -128,6 +146,7 @@ export default async function page(params) {
               />
             </div>
             <div className="grid gap-2">
+              {/* Label and textarea for address */}
               <Label htmlFor="address">Address</Label>
               <Textarea
                 id="address"
@@ -137,11 +156,13 @@ export default async function page(params) {
                 defaultValue={customer.address}
               />
             </div>
+            {/* Submit button */}
             <Button type="submit" className="w-full">
               Update customer data
             </Button>
           </div>
         </CardContent>
+        {/* Card footer */}
         <CardFooter> Fields marked with * are required.</CardFooter>
       </Card>
     </form>

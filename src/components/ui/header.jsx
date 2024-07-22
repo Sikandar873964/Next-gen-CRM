@@ -27,7 +27,6 @@ import { auth, signOut } from "@/auth";
 
 export default async function Header() {
   const { user } = await auth();
-  console.log(user);
 
   const sidebarItems = [
     {

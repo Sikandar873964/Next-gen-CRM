@@ -25,8 +25,11 @@ import { auth } from "@/auth";
 export const metadata = {
   title: "Add Product | CRM App",
 };
+
+// Define the page component
 export default async function page() {
 
+  // Authenticate the user
   const session = await auth();
   const companyID = session?.user?.companyID;
 
@@ -37,17 +40,21 @@ export default async function page() {
         className="mx-auto grid max-w-full flex-1 auto-rows-max gap-4"
       >
         <div className="flex items-center gap-4">
+          {/* Back button */}
           <Button variant="outline" size="icon" className="h-7 w-7" onclick="">
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Back</span>
           </Button>
+          {/* Page title */}
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
             New Product
           </h1>
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
+            {/* Discard button */}
             <Button variant="outline" size="sm">
               Discard
             </Button>
+            {/* Save button */}
             <Button size="sm" type="submit">
               Save Product
             </Button>
@@ -65,6 +72,7 @@ export default async function page() {
               <CardContent>
                 <div className="grid gap-6">
                   <div className="grid gap-3">
+                    {/* Product name input */}
                     <Label htmlFor="name">Name</Label>
                     <Input
                       id="title"
@@ -74,6 +82,7 @@ export default async function page() {
                       placeholder="Enter product's name"
                       required
                     />
+                    {/* Company ID input */}
                     <Input
                       id="companyID"
                       name="companyID"
@@ -83,6 +92,7 @@ export default async function page() {
                     />
                   </div>
                   <div className="grid gap-3">
+                    {/* Product description textarea */}
                     <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="desc"
@@ -103,8 +113,8 @@ export default async function page() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
+                {/* Size input */}
                 <Label htmlFor="size">Size</Label>
-
                 <Input
                   id="size"
                   name="size"
@@ -113,7 +123,7 @@ export default async function page() {
                   placeholder="Size"
                 />
                 <div>
-                  {" "}
+                  {/* Color input */}
                   <Label htmlFor="color">Color</Label>
                   <Input
                     id="color"
@@ -124,6 +134,7 @@ export default async function page() {
                   />
                 </div>
 
+                {/* Category select */}
                 {/* <div>
                   <Label htmlFor="category">Category</Label>
                   <Select>
@@ -151,6 +162,7 @@ export default async function page() {
               <CardContent>
                 <div className="grid gap-6">
                   <div className="grid gap-3">
+                    {/* Stock input */}
                     <Input
                       id="stock"
                       name="stock"
@@ -169,6 +181,7 @@ export default async function page() {
                 <CardDescription>Add a link to the image here</CardDescription>
               </CardHeader>
               <CardContent>
+                {/* Image input */}
                 <Input
                   id="image"
                   name="image"
@@ -184,7 +197,9 @@ export default async function page() {
                 <CardDescription>Add a link to the image here</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-row items-center">
+                {/* Pound sterling icon */}
                 <PoundSterlingIcon className="h-6 w-6 mr-2 text-muted-foreground" />
+                {/* Price input */}
                 <Input
                   id="price"
                   name="price"
@@ -198,6 +213,7 @@ export default async function page() {
           </div>
         </div>
         <div className="flex items-center justify-center gap-2 md:hidden">
+          {/* Discard and save buttons */}
           <Button variant="outline" size="sm">
             Discard
           </Button>

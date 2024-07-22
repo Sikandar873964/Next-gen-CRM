@@ -1,11 +1,6 @@
 "use client";
-
 import * as React from "react";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -20,21 +15,12 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import {
-  ArrowUpDown,
-  ChevronDown,
-  MoreHorizontal,
-  PlusCircleIcon,
-} from "lucide-react";
-
+import { ChevronDown, PlusCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -47,17 +33,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { deleteProduct } from "@/app/lib/actions";
 
-
-export function DataTable(data, columns) {
+export function DataTable({ columns, data, addNewLink, addNewText }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: data.data,
+    data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -79,10 +63,10 @@ export function DataTable(data, columns) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search Product by Name..."
-          value={table.getColumn("title")?.getFilterValue() ?? ""}
+          placeholder="Filter..."
+          value={(table.getColumn(columns[0].accessorKey)?.getFilterValue()) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn(columns[0].accessorKey)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -112,11 +96,13 @@ export function DataTable(data, columns) {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link href="/dashboard/products/add/" className="ml-2">
-          <Button>
-            Add new product <PlusCircleIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
+        {addNewLink && addNewText && (
+          <Link href={addNewLink} className="flex ml-2 justify-end">
+            <Button>
+              {addNewText} <PlusCircleIcon className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>

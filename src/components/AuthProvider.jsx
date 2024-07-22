@@ -1,2 +1,7 @@
-"use client"; //tells Next.js to render this component on the client
-export { SessionProvider as AuthProvider } from 'next-auth/react'
+"use client";
+
+import { SessionProvider as AuthProvider } from "next-auth/react";
+
+export function SessionProvider({ children }) {
+  return <AuthProvider>{children}</AuthProvider>;
+}
