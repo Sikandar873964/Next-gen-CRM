@@ -16,6 +16,8 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
   import Link from "next/link";
+  import { toast } from "sonner";
+  import { deleteProduct } from "@/app/lib/actions";
 
 // Define the columns for the product table
 export const columns = [

@@ -11,7 +11,10 @@ import {
     import { Button } from "@/components/ui/button";
     import { Trash2Icon, EditIcon, MoreHorizontal } from "lucide-react";
     import Link from "next/link";
-    
+    import { toast
+     } from "sonner";
+     import { deleteCustomer } from "@/app/lib/actions";
+     
 // Define the columns for the customer table
 export const columns = [
     {

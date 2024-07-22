@@ -29,6 +29,8 @@ import {
   import { useSession } from "next-auth/react";
   import { useState } from "react";
   import Link from "next/link";
+  import { toast } from "sonner";
+  import { deleteUser } from "@/app/lib/actions";
 
 // Define the columns for the user table
 export const columns = [
