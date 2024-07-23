@@ -98,7 +98,7 @@ export default async function page() {
                   >
                     Is Admin
                   </label>
-                  <Select name="isAdmin" id="isAdmin">
+                  <Select name="isAdmin" id="isAdmin" required>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -118,7 +118,7 @@ export default async function page() {
                   >
                     Is active
                   </label>
-                  <Select name="isActive" id="isActive">
+                  <Select name="isActive" id="isActive" required>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>

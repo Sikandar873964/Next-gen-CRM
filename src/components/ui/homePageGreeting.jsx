@@ -1,5 +1,4 @@
-"use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -8,12 +7,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { useSession } from "next-auth/react";
-import { Separator } from "./separator";
 
-export default function HomePageGreeting() {
-  const { data: session } = useSession();
-  console.log(session, "is the data recieved")
+import { Separator } from "./separator";
+import { auth } from "@/auth";
+
+export default async function HomePageGreeting() {
+
+
+const { user } = await auth();
+console.log(user, "is the recieved user");
 
   const getGreeting = () => {
     const currentTime = new Date().getHours();
@@ -26,49 +28,30 @@ export default function HomePageGreeting() {
     }
   };
 
-  const getCurrentDateTime = () => {
-    const currentDate = new Date();
-    const dateString = currentDate.toLocaleDateString("en-US");
-    const timeString = currentDate.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false,
-    });
-    return `${dateString} ${timeString}`;
-  };
-
-  const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime());
-  useEffect(
-    () => {
-      const intervalId = setInterval(() => {
-        setCurrentDateTime(getCurrentDateTime());
-      }, 1000);
-    } // Update every second
-  );
-
   // Render the card
   return (
     <div>
       <Card className="border-none -mt-4">
         <CardHeader className="flex flex-row items-center">
           <Avatar className="size-20 md:size-28 mr-4">
-            <AvatarImage src={session?.user?.img || "/noavatar.png"} />
+            <AvatarImage src={user?.img || "/noavatar.png"} />
             <AvatarFallback className="text-3xl md:text-5xl">
-              {session?.user?.username.charAt(0)}
+              {user?.username.charAt(0)}
             </AvatarFallback>
           </Avatar>{" "}
           <CardTitle className="text-2xl md:text-5xl">
             <span className="font-normal">{getGreeting()}</span>,{" "}
-            {session?.user?.username}
+            {user?.username}
           </CardTitle>
         </CardHeader>
         <div className="flex-col">
           <CardContent className="flex flex-row justify-between">
             <CardDescription className="mr-10">
-         Welcome to the dashboard
+              Welcome to the dashboard
             </CardDescription>
             <CardDescription className="flex-end">
-              {currentDateTime}
+              {/* {currentDateTime} */}
+              Authorisation Level: {user?.role === true ? "Administrator" : "Standard"}
             </CardDescription>
           </CardContent>
         </div>

@@ -25,17 +25,23 @@ import {
 } from "@/app/lib/data";
 import { updateEnquiry } from "@/app/lib/actions";
 import { Input } from "@/components/ui/input";
+import { auth } from "@/auth";
 
 export const metadata = {
   title: "Update Enquiry | CRM App",
 };
 
-export default async function page(params) {
+export default async function page(params) 
+{
+  const session = await auth();
+  console.log(session, "is the recieved session");
+  const companyID = session?.user?.companyID;
+
   // Extract the 'id' parameter from the 'params' object
   const { id } = params.params;
 
   // Fetch products data
-  const productsData = await fetchProducts();
+  const productsData = await fetchProducts("", companyID);
   const products = productsData?.products;
 
   // Fetch enquiry data based on the 'id'
@@ -44,7 +50,7 @@ export default async function page(params) {
   // Fetch product data based on the product ID from the enquiry data
   const productID = enquiryData.product.toString();
   const product = await fetchProduct(productID);
-  const productTitle = product.title;
+  const productTitle = product?.title;
 
   // Fetch customer data based on the customer ID from the enquiry data
   const customerData = await fetchCustomer(enquiryData.customer.toString());

@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 import { toast } from "sonner";
 import { signIn, auth, signOut } from "@/auth";
+import { isRedirectError } from "next/dist/client/components/redirect";
 
 // Function to add a new user
 export const addUser = async (formData) => {
@@ -372,9 +373,12 @@ export const authenticate = async (prevState, formData) => {
     // Attempt to sign in user
     await signIn("credentials", { username, password, companyid });
   } catch (err) {
+    if (isRedirectError(err)) {
+      throw err;
+  }
     console.error(err);
     if (err.message.includes("CredentialsSignin")) {
-      return "Wrong Credentials";
+      return "Incorrect username, company ID or password. Please try again.";
     }
     throw err;
   }

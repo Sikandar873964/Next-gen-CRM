@@ -1,11 +1,9 @@
-"use client";
-import React from "react";
 import { LayoutDashboardIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { auth } from "@/auth";
 
-export default function Footer() {
-  const { data: session } = useSession();
-  console.log (session);
+export default async function Footer() {
+  const session = await auth();
+  console.log(session?.expires, "is the recieved session");
 
   return (
     <div>
@@ -18,7 +16,11 @@ export default function Footer() {
             </p>
           </div>
           {session ? (
-            <p className="text-center">Session valid until: {session.expires && new Date(session.expires).toLocaleString('en-GB')}</p>
+            <p className="text-center">
+              Session valid until:{" "}
+              {session.expires &&
+                new Date(session.expires).toLocaleString("en-GB")}
+            </p>
           ) : (
             <p>No active session</p>
           )}

@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authenticate } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const [state, formAction] = useFormState(authenticate, undefined);
@@ -80,7 +81,10 @@ const LoginForm = () => {
           </CardContent>
         </Card>
         {/* Display state if available */}
-        {state && state}
+
+        <div className="hidden">
+          {state && toast.error(state)}
+        </div>
       </form>
     </div>
   );
