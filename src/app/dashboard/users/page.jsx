@@ -2,7 +2,7 @@ import React from "react";
 import { fetchUsers } from "@/app/lib/data";
 import { auth } from "@/auth";
 import { DataTable } from "@/components/ui/data-table";
-import { columns } from "@/app/dashboard/users/userTableColumns";
+import { columns } from "@/app/dashboard/users/userTableColumns"
 
 export const metadata = {
   title: "Users | CRM App",
